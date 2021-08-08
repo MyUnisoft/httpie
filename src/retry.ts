@@ -13,9 +13,10 @@ export interface RetryOptions {
   unref?: boolean;
   factor?: number;
   forever?: boolean;
+  signal?: AbortSignal | null;
 }
 
-export type RetryCallback<T> = () => Promise<T>;
+export type RetryCallback<T> = (() => Promise<T>) | (() => T);
 
 export async function retry<T>(
   callback: RetryCallback<T>, options: RetryOptions = {}, policy: PolicyCallback = none
@@ -28,7 +29,7 @@ export async function retry<T>(
       op.success(data);
     }
     catch (error) {
-      if (error.name === "AbortError" || policy(error)) {
+      if (policy(error)) {
         throw error;
       }
 

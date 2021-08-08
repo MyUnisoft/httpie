@@ -1,12 +1,8 @@
 // Import Node.js Dependencies
-// import timers from "timers/promises";
-import { promisify } from "util";
+import timers from "timers/promises";
 
 // Import Internal Dependencies
 import { RetryOptions } from "../retry";
-
-// TODO: use timers/promises with Node.js v16.0.0
-const setTimeoutPromise = promisify(setTimeout);
 
 // CONSTANTS
 const kDefaultOperationOptions: Partial<RetryOptions> = {
@@ -15,7 +11,8 @@ const kDefaultOperationOptions: Partial<RetryOptions> = {
   maxTimeout: Infinity,
   forever: false,
   unref: false,
-  factor: 2
+  factor: 2,
+  signal: null
 };
 
 export interface OperationResult<T> {
@@ -34,6 +31,7 @@ export default class Operation<T> {
   private forever: boolean;
   private unref: boolean;
   private factor: number;
+  private signal: AbortSignal;
   private data: T;
   private continueExecution = true;
 
@@ -42,7 +40,7 @@ export default class Operation<T> {
   private executionTimestamp: number;
   private elapsedTimeoutTime = 0;
 
-  constructor(options: RetryOptions = {}) {
+  constructor(options: RetryOptions) {
     Object.assign(this, {}, kDefaultOperationOptions, options);
     if (this.forever) {
       this.retries = Infinity;
@@ -60,8 +58,20 @@ export default class Operation<T> {
     return this.continueExecution;
   }
 
+  ensureAbort() {
+    if (this.signal === null) {
+      return;
+    }
+
+    if (this.signal.aborted) {
+      throw new Error("Aborted");
+    }
+  }
+
   async retry() {
+    this.ensureAbort();
     this.attempt++;
+
     if (this.attempt > this.retries) {
       // TODO: add error causes ?
 
@@ -69,9 +79,12 @@ export default class Operation<T> {
     }
 
     const timeout = this.backoff;
+    const signal = this.signal ?? void 0;
     this.continueExecution = true;
 
-    await setTimeoutPromise(timeout, void 0, { ref: this.unref });
+    await timers.setTimeout(timeout, void 0, { ref: this.unref, signal });
+    this.ensureAbort();
+
     this.elapsedTimeoutTime += timeout;
   }
 
