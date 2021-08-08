@@ -11,18 +11,21 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://gitlab.com/myunisoft/back/http.git"
+    "url": "git+https://github.com/MyUnisoft/httpie.git"
   },
   "keywords": [],
   "files": [
     "dist"
   ],
+  "publishConfig": {
+    "@myunisoft:registry": "https://registry.npmjs.org/"
+  },
   "author": "GENTILHOMME Thomas <gentilhomme.thomas@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://gitlab.com/myunisoft/back/http/issues"
+    "url": "https://github.com/MyUnisoft/httpie/issues"
   },
-  "homepage": "https://gitlab.com/myunisoft/back/http#readme",
+  "homepage": "https://github.com/MyUnisoft/httpie#readme",
   "devDependencies": {
     "@myunisoft/eslint-config": "^1.3.2",
     "@types/content-type": "^1.1.5",
