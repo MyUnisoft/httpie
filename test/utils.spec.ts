@@ -1,0 +1,166 @@
+// Import Node.js Dependencies
+import { IncomingHttpHeaders } from "http2";
+import stream from "stream";
+
+// Import Internal Dependencies
+import * as Utils from "../src/utils";
+
+describe("getEncodingCharset", () => {
+  it("should return 'utf-8' if no value is provided", () => {
+    expect(Utils.getEncodingCharset()).toStrictEqual("utf-8");
+  });
+
+  it("should return 'utf-8' if the provided charset is not known", () => {
+    expect(Utils.getEncodingCharset("bolekeole")).toStrictEqual("utf-8");
+  });
+
+  it("should return 'latin1' if the charset is equal to 'ISO-8859-1'", () => {
+    expect(Utils.getEncodingCharset("ISO-8859-1")).toStrictEqual("latin1");
+  });
+
+  it("should return the charset unchanged (only if the charset is a valid BufferEncoding)", () => {
+    expect(Utils.getEncodingCharset("ascii")).toStrictEqual("ascii");
+  });
+});
+
+describe("createHeaders", () => {
+  it("should return a plain object with 'user-agent' equal to 'myun'", () => {
+    const result = Utils.createHeaders({});
+
+    expect(result).toEqual({ "user-agent": "myun" });
+  });
+
+  it("should re-use provided headers plain object", () => {
+    const result = Utils.createHeaders({
+      headers: { foo: "bar" }
+    });
+
+    expect(result).toEqual({ foo: "bar", "user-agent": "myun" });
+  });
+
+  it("should add authorization header (and override original property)", () => {
+    const result = Utils.createHeaders({
+      headers: {
+        Authorization: "bar"
+      },
+      authorization: "foo"
+    });
+
+    expect(result).toEqual({ Authorization: "Bearer foo", "user-agent": "myun" });
+  });
+});
+
+describe("createBody", () => {
+  it("should return 'undefined' when undefined is provided as body argument", () => {
+    expect(Utils.createBody(undefined)).toStrictEqual(undefined);
+  });
+
+  it("should be able to prepare and stringify a JSON body", () => {
+    const body = {
+      foo: "bar"
+    };
+    const bodyStr = JSON.stringify(body);
+    const headerRef: IncomingHttpHeaders = {};
+
+    const result = Utils.createBody(body, headerRef);
+
+    expect(result).toStrictEqual(bodyStr);
+    expect(Object.keys(headerRef).length).toStrictEqual(2);
+    expect(headerRef["content-type"]).toStrictEqual("application/json");
+    expect(headerRef["content-length"]).toStrictEqual(String(Buffer.byteLength(bodyStr)));
+  });
+
+  it("should be able to prepare a Buffer body", () => {
+    const body = Buffer.from("hello world!");
+    const headerRef: IncomingHttpHeaders = {};
+
+    const result = Utils.createBody(body, headerRef);
+
+    expect(result).toStrictEqual(body);
+    expect(Object.keys(headerRef).length).toStrictEqual(1);
+    expect(headerRef["content-length"]).toStrictEqual(String(Buffer.byteLength(body)));
+  });
+});
+
+describe("createAuthorizationHeader", () => {
+  it("it should start with 'Bearer ' if the token is Bearer or empty string", () => {
+    expect(Utils.createAuthorizationHeader("")).toStrictEqual("Bearer ");
+    expect(Utils.createAuthorizationHeader("lol")).toStrictEqual("Bearer lol");
+  });
+
+  it("it should start with 'Basic ' for a Basic Authentication", () => {
+    const result = Utils.createAuthorizationHeader("toto:lolo");
+    const base64 = result.split(" ")[1];
+
+    expect(result.startsWith("Basic ")).toBe(true);
+    expect(Buffer.from(base64, "base64").toString("ascii")).toStrictEqual("toto:lolo");
+  });
+});
+
+describe("toError", () => {
+  it("it should create an Error with the properties of RequestResponse", () => {
+    const reqResponse = {
+      statusCode: 404,
+      statusMessage: "Not Found",
+      data: null,
+      headers: {}
+    };
+
+    const error = Utils.toError(reqResponse);
+    expect(error.name).toStrictEqual("Error");
+    expect(error).toMatchObject(reqResponse);
+  });
+});
+
+describe("parseUndiciResponse", () => {
+  const defaultUndiciResponseMeta = {
+    statusCode: 200,
+    context: {},
+    opaque: null,
+    trailers: {}
+  };
+
+  it("should parse a JSON response with no errors", async() => {
+    const payload = JSON.stringify({ foo: "bar" });
+    const body = stream.Readable.from(payload);
+
+    const data = await Utils.parseUndiciResponse<{ foo: string }>({
+      ...defaultUndiciResponseMeta, body,
+      headers: {
+        "content-type": "application/json"
+      }
+    });
+
+    expect(data).toMatchObject({ foo: "bar" });
+  });
+
+  it("should parse an invalid JSON response but still keep the body string in the Error", async() => {
+    expect.assertions(1);
+
+    const payload = "{\"foo\": bar}";
+    const body = stream.Readable.from(payload);
+
+    try {
+      await Utils.parseUndiciResponse<{ foo: string }>({
+        ...defaultUndiciResponseMeta, body,
+        headers: {
+          "content-type": "application/json"
+        }
+      });
+    }
+    catch (error) {
+      expect(error.body).toStrictEqual(payload);
+    }
+  });
+
+  it("should parse the response as a plain/text", async() => {
+    const payload = "hello world!";
+    const body = stream.Readable.from(payload);
+
+    const data = await Utils.parseUndiciResponse<string>({
+      ...defaultUndiciResponseMeta, body, headers: {}
+    });
+
+    expect(data).toStrictEqual(payload);
+  });
+});
