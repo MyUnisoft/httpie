@@ -61,15 +61,9 @@ export async function request<T>(method: string, uri: string | URL, options: Req
     statusCode,
     data: void 0 as any
   };
-  try {
-    const data = await Utils.parseUndiciResponse<T>(requestResponse);
-    RequestResponse.data = data;
-  }
-  catch (error) {
-    RequestResponse.data = error?.body ?? error.message;
 
-    throw Utils.toError(RequestResponse);
-  }
+  const data = await Utils.parseUndiciResponse<T>(requestResponse);
+  RequestResponse.data = data;
 
   if (statusCode >= 400) {
     throw Utils.toError(RequestResponse);

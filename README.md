@@ -7,8 +7,8 @@ A modern and light Node.js http client 🐢🚀. The package is inspired by luke
 - Automatically handles JSON requests and responses.
 - Includes aliases for common HTTP verbs: `get`, `post`, `put`, `patch`, and `del`.
 - Able to automatically detect domains and paths to assign the right Agent (use a LRU cache to avoid repetitive computation).
-- [**WIP**] Allows to use an accurate rate-limiter like `p-ratelimit`.
-- [**WIP**] Built-in retry mechanism with **custom policies**.
+- Allows to use an accurate rate-limiter like `p-ratelimit`.
+- Built-in retry mechanism with **custom policies**.
 
 Thanks to undici:
 

@@ -12,8 +12,8 @@ const windev: CustomHttpAgent = {
   agent: new undici.Agent({
     connections: 500
   }),
-  prod: "",
-  preprod: "",
+  prod: "https://ws-dev.myunisoft.fr",
+  preprod: "https://ws-dev.myunisoft.fr",
   dev: "https://ws-dev.myunisoft.fr"
 };
 agents.push(windev);

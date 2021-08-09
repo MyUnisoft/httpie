@@ -1,8 +1,52 @@
+// Import Third-party Dependencies
+import { FastifyInstance } from "fastify";
+
 // Import Internal Dependencies
 import { get, post, put, patch, del } from "../src/index";
+
+// Helpers and mock
+import { createServer } from "./server/index";
 import { windev } from "./helpers";
 
+let httpServer: FastifyInstance;
+beforeAll(async() => {
+  httpServer = await createServer();
+});
+
+afterAll(async() => {
+  await httpServer.close();
+});
+
 describe("http.get", () => {
+  it("should GET uptime from local fastify server", async() => {
+    const { data } = await get<{ uptime: number }>("/local/");
+
+    expect("uptime" in data).toStrictEqual(true);
+    expect(typeof data.uptime).toStrictEqual("number");
+  });
+
+  it("should GET a ressource with an http redirection", async() => {
+    const { data } = await get<{ uptime: number }>("/local/redirect", { maxRedirections: 1 });
+
+    expect("uptime" in data).toStrictEqual(true);
+    expect(typeof data.uptime).toStrictEqual("number");
+  });
+
+  it("should GET uptime with a limit wrapper", async() => {
+    let executed = false;
+    // eslint-disable-next-line func-style
+    const limit = (callback) => {
+      executed = true;
+
+      return callback();
+    };
+    const { data } = await get<{ uptime: number }>("/local/", { limit });
+
+    expect("uptime" in data).toStrictEqual(true);
+    expect(typeof data.uptime).toStrictEqual("number");
+    expect(executed).toStrictEqual(true);
+  });
+
   it("should GET response from windev ws-monitoring endpoint (without Agent)", async() => {
     const { data } = await get<string>("/windev/ws_monitoring");
 
@@ -34,6 +78,17 @@ describe("http.get", () => {
       expect(error.statusCode).toStrictEqual(404);
       expect(error.statusMessage).toStrictEqual("Not Found");
       expect(error.data).toMatchSnapshot();
+    }
+  });
+
+  it("should throw a SyntaxError with jsonError endpoint", async() => {
+    expect.assertions(1);
+
+    try {
+      await get<string>("/local/jsonError");
+    }
+    catch (error) {
+      expect(error.name).toStrictEqual("SyntaxError");
     }
   });
 });

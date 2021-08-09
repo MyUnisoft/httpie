@@ -164,3 +164,35 @@ describe("parseUndiciResponse", () => {
     expect(data).toStrictEqual(payload);
   });
 });
+
+describe("getCurrentEnv", () => {
+  afterAll(() => {
+    Utils.env.NODE_ENV = "dev";
+  });
+
+  it("should return 'prod'", () => {
+    Utils.env.NODE_ENV = "prod";
+    expect(Utils.getCurrentEnv()).toStrictEqual("prod");
+  });
+
+  it("should return 'preprod'", () => {
+    Utils.env.NODE_ENV = "staging";
+    expect(Utils.getCurrentEnv()).toStrictEqual("preprod");
+
+    Utils.env.NODE_ENV = "preprod";
+    expect(Utils.getCurrentEnv()).toStrictEqual("preprod");
+  });
+
+  it("should return 'dev'", () => {
+    Utils.env.NODE_ENV = "dev";
+    expect(Utils.getCurrentEnv()).toStrictEqual("dev");
+
+    Utils.env.NODE_ENV = "test";
+    expect(Utils.getCurrentEnv()).toStrictEqual("dev");
+  });
+
+  it("should return 'dev' as default value", () => {
+    delete Utils.env.NODE_ENV;
+    expect(Utils.getCurrentEnv()).toStrictEqual("dev");
+  });
+});

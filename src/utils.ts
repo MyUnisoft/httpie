@@ -118,19 +118,18 @@ export function createAuthorizationHeader(authorizationHeaderValue: string): str
     `Bearer ${authorizationHeaderValue}`;
 }
 
-export function getCurrentEnv() {
-  const env: string = (process.env.NODE_ENV ?? "dev").toLowerCase();
+export const env = process.env;
 
-  if (env.startsWith("prod")) {
+export function getCurrentEnv() {
+  const currentEnv: string = (env.NODE_ENV ?? "dev").toLowerCase();
+
+  if (currentEnv.startsWith("prod")) {
     return "prod";
   }
-  else if (env.startsWith("dev") || env === "test") {
-    return "dev";
-  }
-  else if (env.startsWith("staging") || env.startsWith("preprod")) {
+  else if (currentEnv.startsWith("staging") || currentEnv.startsWith("preprod")) {
     return "preprod";
   }
 
-  return env;
+  return "dev";
 }
 
