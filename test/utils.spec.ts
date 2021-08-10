@@ -24,10 +24,10 @@ describe("getEncodingCharset", () => {
 });
 
 describe("createHeaders", () => {
-  it("should return a plain object with 'user-agent' equal to 'myun'", () => {
+  it("should return a plain object with 'user-agent' equal to 'httpie'", () => {
     const result = Utils.createHeaders({});
 
-    expect(result).toEqual({ "user-agent": "myun" });
+    expect(result).toEqual({ "user-agent": "httpie" });
   });
 
   it("should re-use provided headers plain object", () => {
@@ -35,7 +35,7 @@ describe("createHeaders", () => {
       headers: { foo: "bar" }
     });
 
-    expect(result).toEqual({ foo: "bar", "user-agent": "myun" });
+    expect(result).toEqual({ foo: "bar", "user-agent": "httpie" });
   });
 
   it("should add authorization header (and override original property)", () => {
@@ -46,7 +46,7 @@ describe("createHeaders", () => {
       authorization: "foo"
     });
 
-    expect(result).toEqual({ Authorization: "Bearer foo", "user-agent": "myun" });
+    expect(result).toEqual({ Authorization: "Bearer foo", "user-agent": "httpie" });
   });
 });
 
