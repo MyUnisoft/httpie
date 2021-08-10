@@ -14,16 +14,16 @@
     <a href="./SECURITY.md"><img src="https://img.shields.io/badge/Security-Responsible%20Disclosure-yellow.svg?style=flat-square" alt="Responsible Disclosure Policy" /></a>
 </p>
 
-## About
+## 📢 About
 
 The package is inspired by lukeed [httpie](https://github.com/lukeed/httpie) (The use is relatively similar). This package use new Node.js http client [undici](https://github.com/nodejs/undici) under the hood.
 
-## Features
+## 🔬 Features
 
 - Automatically handles JSON requests and responses.
 - Includes aliases for common HTTP verbs: `get`, `post`, `put`, `patch`, and `del`.
 - Able to automatically detect domains and paths to assign the right Agent (use a LRU cache to avoid repetitive computation).
-- Allows to use an accurate rate-limiter like `p-ratelimit`.
+- Allows to use an accurate rate-limiter like `p-ratelimit` with the `limit` option.
 - Built-in retry mechanism with **custom policies**.
 
 Thanks to undici:
@@ -37,10 +37,10 @@ Light with seriously maintained dependencies:
 
 ![](./docs/images/nodesecure.PNG)
 
-## Requirements
+## 🚧 Requirements
 - [Node.js](https://nodejs.org/en/) version 14 or higher
 
-## Getting Started
+## 🚀 Getting Started
 
 This package is available in the Node Package Repository and can be easily installed with [npm](https://docs.npmjs.com/getting-started/what-is-npm) or [yarn](https://yarnpkg.com).
 
@@ -50,7 +50,7 @@ $ npm i @myunisoft/httpie
 $ yarn add @myunisoft/httpie
 ```
 
-## Usage example
+## 📚 Usage example
 
 The MyUnisoft httpie client is very similar to lukeed httpie http client.
 
@@ -81,7 +81,10 @@ catch (error) {
 }
 ```
 
-## API
+> 👀 For more examples of use please look at the root folder **examples**.
+
+## 📜 API
 
 - [Request API](./docs/request.md)
+- [Retry API](./docs/retry.md)
 - [Work and manage Agents](./docs/agents.md)

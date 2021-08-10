@@ -1,6 +1,6 @@
 # Agents
 
-Agents are custom constructs that are used to describe services internal to MyUnisoft. However this could also be used for external services.
+Agents are custom constructs that are used to describe internal and external services.
 
 ```js
 import { agents } from "@myunisoft/httpie";
@@ -8,7 +8,7 @@ import { agents } from "@myunisoft/httpie";
 console.log(agents); // <- push a new agent in this Array
 ```
 
-Those agents are described by the following TypeScript interface:
+Those custom `agents` are described by the following TypeScript interface:
 ```ts
 export interface CustomHttpAgent {
   customPath: string;
@@ -34,6 +34,9 @@ export const test: CustomHttpAgent = {
   preprod: "",
   dev: "https://test.domain.fr"
 };
+
+// Note: push it to the package agents list
+agents.push(test);
 ```
 
 The **agent** property is an Undici Agent.

@@ -13,6 +13,8 @@ export interface RequestOptions {
   authorization?: string;
   // Could be dynamically computed depending on the provided URI.
   agent?: undici.Agent;
+    // API limiter from a package like "p-ratelimit"
+  limit?: InlineCallbackAction;
 }
 
 export interface RequestResponse<T> {
@@ -39,13 +41,7 @@ const { data } = await request("GET", "https://test.domain.fr/user/info", {
 console.log(data);
 ```
 
-By default the client will detect the `test.domain.fr` hostname and assign the right Undici Agent. But if necessary they can always be retrieved by hand to be passed to the options.
-
-```js
-import { windev } from "@myunisoft/httpie";
-
-console.log(windev);
-```
+By default the client will detect the `test.domain.fr` hostname and assign the right Undici Agent (if locally configured).
 
 ## shorthand methods
 Those methods are equivalent to the request arguments (except for `method`)
