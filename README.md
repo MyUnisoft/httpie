@@ -1,6 +1,22 @@
-# Httpie
 
-A modern and light Node.js http client 🐢🚀. The package is inspired by lukeed [httpie](https://github.com/lukeed/httpie) (The use is relatively similar). This package use new Node.js http client [undici](https://github.com/nodejs/undici) under the hood.
+<p align="center"><h1 align="center">
+  Httpie
+</h1>
+
+<p align="center">
+  A modern and light Node.js http client 🐢🚀.
+</p>
+
+<p align="center">
+    <a href="https://github.com/MyUnisoft/httpie"><img src="https://img.shields.io/github/package-json/v/MyUnisoft/httpie?style=flat-square" alt="npm version"></a>
+    <a href="https://github.com/MyUnisoft/httpie"><img src="https://img.shields.io/github/license/MyUnisoft/httpie?style=flat-square" alt="license"></a>
+    <a href="https://github.com/MyUnisoft/httpie"><img src="https://img.shields.io/github/languages/code-size/MyUnisoft/httpie?style=flat-square" alt="size"></a>
+    <a href="./SECURITY.md"><img src="https://img.shields.io/badge/Security-Responsible%20Disclosure-yellow.svg?style=flat-square" alt="Responsible Disclosure Policy" /></a>
+</p>
+
+## About
+
+The package is inspired by lukeed [httpie](https://github.com/lukeed/httpie) (The use is relatively similar). This package use new Node.js http client [undici](https://github.com/nodejs/undici) under the hood.
 
 ## Features
 
