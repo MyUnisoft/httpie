@@ -14,7 +14,7 @@ Thanks to undici:
 
 - Support [HTTP redirections](https://developer.mozilla.org/en-US/docs/Web/HTTP/Redirections) with the `maxRedirections` argument.
 - Implement high-level API for undici **stream** and **pipeline** method.
-- Optimization and performance of the new client (**around 2.5x faster** than Node.js native http client).
+- High performance (see [benchmarks](https://undici.nodejs.org/#/?id=benchmarks)).
 - Work well with **newest** Node.js API [AbortController](https://nodejs.org/dist/latest-v16.x/docs/api/globals.html#globals_class_abortcontroller) to cancel http request.
 
 Light with seriously maintained dependencies:

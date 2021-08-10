@@ -25,14 +25,14 @@ describe("http.get", () => {
     expect(typeof data.uptime).toStrictEqual("number");
   });
 
-  it("should GET a ressource with an http redirection", async() => {
+  it("should GET uptime by following an HTTP redirection from local fastify server", async() => {
     const { data } = await get<{ uptime: number }>("/local/redirect", { maxRedirections: 1 });
 
     expect("uptime" in data).toStrictEqual(true);
     expect(typeof data.uptime).toStrictEqual("number");
   });
 
-  it("should GET uptime with a limit wrapper", async() => {
+  it("should GET uptime through a limit function handler from local fastify server", async() => {
     let executed = false;
     // eslint-disable-next-line func-style
     const limit = (callback) => {
@@ -81,7 +81,7 @@ describe("http.get", () => {
     }
   });
 
-  it("should throw a SyntaxError with jsonError endpoint", async() => {
+  it("should throw a 'SyntaxError' with jsonError endpoint from local fastify server", async() => {
     expect.assertions(1);
 
     try {

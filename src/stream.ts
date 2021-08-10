@@ -9,7 +9,9 @@ import { ReqOptions } from "./request";
 import { computeURI } from "./agents";
 import * as Utils from "./utils";
 
-export function pipeline(method: string, uri: string | URL, options: Omit<ReqOptions, "limit"> = {}): Duplex {
+export type StreamOptions = Omit<ReqOptions, "limit">;
+
+export function pipeline(method: string, uri: string | URL, options: StreamOptions = {}): Duplex {
   const { maxRedirections = 0 } = options;
   const computedURI = computeURI(uri);
 
@@ -24,7 +26,7 @@ export function pipeline(method: string, uri: string | URL, options: Omit<ReqOpt
 
 export type WritableStreamCallback = (writable: Writable) => Promise<undici.Dispatcher.StreamData>;
 
-export function stream(method: string, uri: string | URL, options: Omit<ReqOptions, "limit"> = {}): WritableStreamCallback {
+export function stream(method: string, uri: string | URL, options: StreamOptions = {}): WritableStreamCallback {
   const { maxRedirections = 0 } = options;
   const computedURI = computeURI(uri);
 

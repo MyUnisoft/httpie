@@ -91,4 +91,13 @@ describe("computeURI", () => {
 
     expect(result).toStrictEqual(true);
   });
+
+  it("should compute an URL not related to any local agents", () => {
+    const stringURL = "https://www.linkedin.com/feed/";
+    const result = Agents.computeURI(new URL("", stringURL));
+
+    expect(result.url.href).toStrictEqual(stringURL);
+    expect(result.agent).toStrictEqual(null);
+    expect(result.limit).toStrictEqual(undefined);
+  });
 });
