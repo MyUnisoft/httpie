@@ -12,11 +12,13 @@ import { RequestResponse, ReqOptions } from "./request";
 
 // CONSTANTS
 const kDefaultMimeType = "text/plain";
-const kDefaultUserAgent = "myun";
+const kDefaultUserAgent = "httpie";
 const kDefaultEncodingCharset = "utf-8";
 const kCharsetConversionTable = {
   "ISO-8859-1": "latin1"
 };
+
+export const DEFAULT_HEADER = { "user-agent": kDefaultUserAgent };
 
 /**
  * @description Get a valid Node.js charset from the "content-type" http header.
@@ -63,7 +65,7 @@ export async function parseUndiciResponse<T>(response: Dispatcher.ResponseData):
  * - Authorization
  */
 export function createHeaders(options: Partial<Pick<ReqOptions, "headers" | "authorization">>): IncomingHttpHeaders {
-  const headers = Object.assign(options.headers ?? {}, { "user-agent": kDefaultUserAgent });
+  const headers = Object.assign(options.headers ?? {}, DEFAULT_HEADER);
   if (options.authorization) {
     headers.Authorization = createAuthorizationHeader(options.authorization);
   }

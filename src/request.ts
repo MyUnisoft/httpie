@@ -14,7 +14,7 @@ export type InlineCallbackAction = <T>(fn: () => Promise<T>) => Promise<T>;
 export interface ReqOptions {
   /** Default: 0 */
   maxRedirections?: number;
-  /** Default: { "user-agent": "myun" } */
+  /** Default: { "user-agent": "httpie" } */
   headers?: IncomingHttpHeaders;
   body?: any;
   authorization?: string;

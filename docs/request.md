@@ -7,7 +7,7 @@ The method **options** and **response** are described by the following TypeScrip
 export interface RequestOptions {
   /** Default: 0 */
   maxRedirections?: number;
-  /** Default: { "user-agent": "myun" } */
+  /** Default: { "user-agent": "httpie" } */
   headers?: IncomingHttpHeaders;
   body?: any;
   authorization?: string;
