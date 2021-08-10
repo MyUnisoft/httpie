@@ -36,7 +36,7 @@ export const test: CustomHttpAgent = {
 };
 
 // Note: push it to the package agents list
-agents.push(test);
+agents.add(test);
 ```
 
 The **agent** property is an Undici Agent.

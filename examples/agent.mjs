@@ -15,7 +15,7 @@ const yoda = {
   preprod: "",
   dev: "https://yoda.myunisoft.fr:1407"
 };
-httpie.agents.push(yoda);
+httpie.agents.add(yoda);
 
 const { data } = await httpie.get("/yoda/api/v1/ipa/healthz");
 console.log(data);

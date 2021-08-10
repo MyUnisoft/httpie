@@ -1,3 +1,6 @@
+// Import Third-party Dependencies
+import is from "@slimio/is";
+
 // Import Internal Dependencies
 import { windev } from "./helpers";
 import * as Agents from "../src/agents";
@@ -7,7 +10,8 @@ const kWindevMonitoringURL = "https://ws-dev.myunisoft.fr/ws_monitoring";
 
 describe("agents", () => {
   it("should be an Array of CustomHttpAgent and must remain extensible", () => {
-    expect(Array.isArray(Agents.agents)).toStrictEqual(true);
+    expect(is.set(Agents.agents)).toStrictEqual(true);
+
     expect(Object.isExtensible(Agents.agents)).toStrictEqual(true);
   });
 });

@@ -39,7 +39,7 @@ export async function createServer(customPath = "local", port = 3000) {
     preprod: `http://localhost:${port}/`,
     dev: `http://localhost:${port}/`
   };
-  agents.push(serverAgent);
+  agents.add(serverAgent);
 
   server.get("/", async() => {
     return {

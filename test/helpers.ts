@@ -16,6 +16,6 @@ const windev: CustomHttpAgent = {
   preprod: "https://ws-dev.myunisoft.fr",
   dev: "https://ws-dev.myunisoft.fr"
 };
-agents.push(windev);
+agents.add(windev);
 
 export { windev };

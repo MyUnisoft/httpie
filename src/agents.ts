@@ -36,7 +36,7 @@ export interface CustomHttpAgent {
   limit?: InlineCallbackAction;
 }
 
-export const agents: CustomHttpAgent[] = [];
+export const agents: Set<CustomHttpAgent> = new Set();
 
 /**
  * @description Detect if a given string URI is matching a given Agent custom path.
