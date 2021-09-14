@@ -3,6 +3,7 @@ import { Duplex, Writable } from "stream";
 
 // Import Third-party Dependencies
 import * as undici from "undici";
+import { HttpMethod } from "undici/types/dispatcher";
 
 // Import Internal Dependencies
 import { ReqOptions } from "./request";
@@ -11,7 +12,7 @@ import * as Utils from "./utils";
 
 export type StreamOptions = Omit<ReqOptions, "limit">;
 
-export function pipeline(method: string, uri: string | URL, options: StreamOptions = {}): Duplex {
+export function pipeline(method: HttpMethod, uri: string | URL, options: StreamOptions = {}): Duplex {
   const { maxRedirections = 0 } = options;
   const computedURI = computeURI(uri);
 
@@ -26,7 +27,7 @@ export function pipeline(method: string, uri: string | URL, options: StreamOptio
 
 export type WritableStreamCallback = (writable: Writable) => Promise<undici.Dispatcher.StreamData>;
 
-export function stream(method: string, uri: string | URL, options: StreamOptions = {}): WritableStreamCallback {
+export function stream(method: HttpMethod, uri: string | URL, options: StreamOptions = {}): WritableStreamCallback {
   const { maxRedirections = 0 } = options;
   const computedURI = computeURI(uri);
 

@@ -3,6 +3,7 @@ import { IncomingHttpHeaders } from "http";
 
 // Import Third-party Dependencies
 import * as undici from "undici";
+import { HttpMethod } from "undici/types/dispatcher";
 import status from "statuses";
 
 // Import Internal Dependencies
@@ -39,7 +40,7 @@ export interface RequestResponse<T> {
  * const { statusCode, data } = await request("GET", "https://ws-dev.myunisoft.fr/ws_monitoring");
  * console.log(statusCode, data); // 200 "true"
  */
-export async function request<T>(method: string, uri: string | URL, options: ReqOptions = {}): Promise<RequestResponse<T>> {
+export async function request<T>(method: HttpMethod, uri: string | URL, options: ReqOptions = {}): Promise<RequestResponse<T>> {
   const { maxRedirections = 0 } = options;
   const computedURI = computeURI(uri);
 
