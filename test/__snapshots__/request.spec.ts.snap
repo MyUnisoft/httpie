@@ -8,7 +8,7 @@ exports[`http.get should throw a 404 Not Found error because the path is not kno
 <h1>Not Found</h1>
 <p>The requested URL was not found on this server.</p>
 <hr>
-<address>Apache/2.4.38 (Debian) Server at ws-dev.myunisoft.fr Port 443</address>
+<address>Apache/2.4.51 (Debian) Server at ws-dev.myunisoft.fr Port 443</address>
 </body></html>
 "
 `;

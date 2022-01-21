@@ -84,14 +84,18 @@ export function createBody(body: any, headers: IncomingHttpHeaders = {}): string
     return void 0;
   }
 
-  const isObj = typeof body === "object" && !Buffer.isBuffer(body);
-  const stringOrBuffer = isObj ? JSON.stringify(body) : body;
-  if (isObj) {
-    headers["content-type"] = "application/json";
+  let finalBody: string = body;
+  if (body instanceof URLSearchParams) {
+    headers["content-type"] = "application/x-www-form-urlencoded";
+    finalBody = body.toString();
   }
-  headers["content-length"] = String(Buffer.byteLength(stringOrBuffer));
+  else if (typeof body === "object" && !Buffer.isBuffer(body)) {
+    headers["content-type"] = "application/json";
+    finalBody = JSON.stringify(body);
+  }
+  headers["content-length"] = String(Buffer.byteLength(finalBody));
 
-  return stringOrBuffer;
+  return finalBody;
 }
 
 /**

@@ -70,6 +70,21 @@ describe("createBody", () => {
     expect(headerRef["content-length"]).toStrictEqual(String(Buffer.byteLength(bodyStr)));
   });
 
+  it("should be able to prepare a FORM (URLEncoded) body", () => {
+    const body = new URLSearchParams({
+      foo: "bar"
+    });
+    const bodyStr = body.toString();
+    const headerRef: IncomingHttpHeaders = {};
+
+    const result = Utils.createBody(body, headerRef);
+
+    expect(result).toStrictEqual(bodyStr);
+    expect(Object.keys(headerRef).length).toStrictEqual(2);
+    expect(headerRef["content-type"]).toStrictEqual("application/x-www-form-urlencoded");
+    expect(headerRef["content-length"]).toStrictEqual(String(Buffer.byteLength(bodyStr)));
+  });
+
   it("should be able to prepare a Buffer body", () => {
     const body = Buffer.from("hello world!");
     const headerRef: IncomingHttpHeaders = {};
