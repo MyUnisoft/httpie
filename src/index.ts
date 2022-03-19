@@ -5,7 +5,15 @@ import {
   fetch,
   setGlobalDispatcher,
   getGlobalDispatcher,
-  MockAgent
+  Headers,
+  HeadersInit,
+  FormData,
+  File,
+  FileOptions,
+  BodyInit,
+  BodyMixin,
+  MockAgent,
+  mockErrors
 } from "undici";
 
 export * from "./request";
@@ -15,11 +23,20 @@ export * as policies from "./policies";
 export { agents, CustomHttpAgent } from "./agents";
 export { DEFAULT_HEADER } from "./utils";
 
+
 export {
   Agent,
   ProxyAgent,
   fetch,
   setGlobalDispatcher,
   getGlobalDispatcher,
-  MockAgent
+  Headers,
+  HeadersInit,
+  FormData,
+  File,
+  FileOptions,
+  BodyInit,
+  BodyMixin,
+  MockAgent,
+  mockErrors
 };
