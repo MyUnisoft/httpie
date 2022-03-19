@@ -1,6 +1,7 @@
 // Import Third-party Dependencies
 import {
   Agent,
+  ProxyAgent,
   fetch,
   setGlobalDispatcher,
   getGlobalDispatcher,
@@ -16,6 +17,7 @@ export { DEFAULT_HEADER } from "./utils";
 
 export {
   Agent,
+  ProxyAgent,
   fetch,
   setGlobalDispatcher,
   getGlobalDispatcher,

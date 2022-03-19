@@ -1,5 +1,5 @@
 // Import Third-party Dependencies
-import { Agent } from "undici";
+import { Agent, ProxyAgent, MockAgent } from "undici";
 import LRU from "lru-cache";
 
 // Import Internal Dependencies
@@ -19,7 +19,7 @@ export const URICache = new LRU<string | URL, computedUrlAndAgent>({
 
 export interface computedUrlAndAgent {
   url: URL;
-  agent: Agent | null;
+  agent: Agent | ProxyAgent | MockAgent | null;
   limit?: InlineCallbackAction;
 }
 
@@ -29,7 +29,7 @@ export interface computedUrlAndAgent {
 export interface CustomHttpAgent {
   customPath: string;
   domains: Set<string>;
-  agent: Agent;
+  agent: Agent | ProxyAgent | MockAgent;
   prod: string;
   preprod: string;
   dev: string;
