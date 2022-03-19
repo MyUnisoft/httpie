@@ -67,7 +67,7 @@ describe("detectAgentFromURI", () => {
 
 describe("computeURI", () => {
   beforeEach(() => {
-    Agents.URICache.reset();
+    Agents.URICache.clear();
   });
 
   it("should compute a windev URI (as string)", () => {

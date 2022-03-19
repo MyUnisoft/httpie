@@ -14,7 +14,7 @@ const kEnvName = getCurrentEnv();
  */
 export const URICache = new LRU<string | URL, computedUrlAndAgent>({
   max: 100,
-  maxAge: 1_000 * 60 * 120
+  ttl: 1_000 * 60 * 120
 });
 
 export interface computedUrlAndAgent {

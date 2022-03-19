@@ -64,7 +64,9 @@ describe("http.get", () => {
   it("should GET json response from node.js health endpoint", async() => {
     const { data } = await get<any>("https://yoda.myunisoft.fr:1407/api/v1/ipa/healthz");
 
-    expect(Object.keys(data).sort()).toMatchObject(["status", "version", "description", "details"].sort());
+    expect(Object.keys(data).sort()).toMatchObject([
+      "status", "version", "description", "checks"
+    ].sort());
   });
 
   it("should throw a 404 Not Found error because the path is not known", async() => {
