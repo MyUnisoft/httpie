@@ -20,7 +20,7 @@ export interface ReqOptions {
   body?: any;
   authorization?: string;
   // Could be dynamically computed depending on the provided URI.
-  agent?: undici.Agent;
+  agent?: undici.Agent | undici.ProxyAgent | undici.MockAgent;
   // API limiter from a package like "p-ratelimit"
   limit?: InlineCallbackAction;
 }

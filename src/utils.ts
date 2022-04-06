@@ -84,7 +84,7 @@ export function createBody(body: any, headers: IncomingHttpHeaders = {}): string
     return void 0;
   }
 
-  let finalBody: string = body;
+  let finalBody = body;
   if (body instanceof URLSearchParams) {
     headers["content-type"] = "application/x-www-form-urlencoded";
     finalBody = body.toString();
