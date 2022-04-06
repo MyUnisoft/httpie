@@ -95,6 +95,16 @@ describe("createBody", () => {
     expect(Object.keys(headerRef).length).toStrictEqual(1);
     expect(headerRef["content-length"]).toStrictEqual(String(Buffer.byteLength(body)));
   });
+
+  it("should return the ReadableStream without any transformation", () => {
+    const headerRef: IncomingHttpHeaders = {};
+    const readStream = new stream.Readable();
+
+    const result = Utils.createBody(readStream, headerRef);
+
+    expect(result).toStrictEqual(readStream);
+    expect(Object.keys(headerRef)).toHaveLength(0);
+  });
 });
 
 describe("createAuthorizationHeader", () => {

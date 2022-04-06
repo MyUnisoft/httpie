@@ -83,6 +83,9 @@ export function createBody(body: any, headers: IncomingHttpHeaders = {}): string
   if (typeof body === "undefined") {
     return void 0;
   }
+  if (Symbol.asyncIterator in body) {
+    return body;
+  }
 
   let finalBody = body;
   if (body instanceof URLSearchParams) {
