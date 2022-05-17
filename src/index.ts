@@ -20,7 +20,7 @@ export * from "./request";
 export * from "./stream";
 export * from "./retry";
 export * as policies from "./policies";
-export { agents, CustomHttpAgent } from "./agents";
+export { agents, computeURI, CustomHttpAgent } from "./agents";
 export { DEFAULT_HEADER } from "./utils";
 
 
