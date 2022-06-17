@@ -78,7 +78,7 @@ export async function createServer(customPath = "local", port = 3000) {
     reply.send();
   });
 
-  await server.listen(port);
+  await server.listen({ port });
 
   return server;
 }
