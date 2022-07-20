@@ -14,7 +14,14 @@ export type StreamOptions = Omit<ReqOptions, "limit">;
 
 export function pipeline(method: HttpMethod, uri: string | URL, options: StreamOptions = {}): Duplex {
   const { maxRedirections = 0 } = options;
+
   const computedURI = computeURI(uri);
+  if (typeof options.querystring !== "undefined") {
+    const qs = typeof options.querystring === "string" ? new URLSearchParams(options.querystring) : options.querystring;
+    for (const [key, value] of qs.entries()) {
+      computedURI.url.searchParams.set(key, value);
+    }
+  }
 
   const dispatcher = options.agent ?? computedURI.agent ?? void 0;
   const headers = Utils.createHeaders({ headers: options.headers, authorization: options.authorization });

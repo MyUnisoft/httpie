@@ -47,6 +47,8 @@ export async function createServer(customPath = "local", port = 3000) {
     };
   });
 
+  server.get("/qs", async(request) => request.query);
+
   server.get("/home", (request, reply) => {
     reply.send(
       fs.createReadStream(path.join(kFixturesPath, "home.html"))
