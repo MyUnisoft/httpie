@@ -5,6 +5,23 @@ import stream from "stream";
 // Import Internal Dependencies
 import * as Utils from "../src/utils";
 
+describe("isAsyncIterable", () => {
+  it("should return false for synchronous iterable like an Array", () => {
+    expect(Utils.isAsyncIterable([])).toStrictEqual(false);
+  });
+
+  it("should return false for synchronous iterable like a primitive string", () => {
+    expect(Utils.isAsyncIterable("foobar")).toStrictEqual(false);
+  });
+
+  it("should return true for a Async Generator Function", () => {
+    async function* foo() {
+      yield "bar";
+    }
+    expect(Utils.isAsyncIterable(foo())).toStrictEqual(true);
+  });
+});
+
 describe("getEncodingCharset", () => {
   it("should return 'utf-8' if no value is provided", () => {
     expect(Utils.getEncodingCharset()).toStrictEqual("utf-8");

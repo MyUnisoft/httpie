@@ -20,6 +20,10 @@ const kCharsetConversionTable = {
 
 export const DEFAULT_HEADER = { "user-agent": kDefaultUserAgent };
 
+export function isAsyncIterable(value: any): boolean {
+  return typeof value[Symbol.asyncIterator] === "function";
+}
+
 /**
  * @description Get a valid Node.js charset from the "content-type" http header.
  * @see https://nodejs.org/api/buffer.html#buffer_buffers_and_character_encodings
@@ -83,7 +87,7 @@ export function createBody(body: any, headers: IncomingHttpHeaders = {}): string
   if (typeof body === "undefined") {
     return void 0;
   }
-  if (Symbol.asyncIterator in body) {
+  if (isAsyncIterable(body)) {
     return body;
   }
 
