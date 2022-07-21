@@ -1,5 +1,6 @@
 // Import Node.js Dependencies
 import { IncomingHttpHeaders } from "http";
+import { URLSearchParams } from "url";
 
 // Import Third-party Dependencies
 import * as undici from "undici";
@@ -17,6 +18,7 @@ export interface ReqOptions {
   maxRedirections?: number;
   /** Default: { "user-agent": "httpie" } */
   headers?: IncomingHttpHeaders;
+  querystring?: string | URLSearchParams;
   body?: any;
   authorization?: string;
   // Could be dynamically computed depending on the provided URI.
@@ -42,7 +44,14 @@ export interface RequestResponse<T> {
  */
 export async function request<T>(method: HttpMethod, uri: string | URL, options: ReqOptions = {}): Promise<RequestResponse<T>> {
   const { maxRedirections = 0 } = options;
+
   const computedURI = computeURI(uri);
+  if (typeof options.querystring !== "undefined") {
+    const qs = typeof options.querystring === "string" ? new URLSearchParams(options.querystring) : options.querystring;
+    for (const [key, value] of qs.entries()) {
+      computedURI.url.searchParams.set(key, value);
+    }
+  }
 
   const limit = options.limit ?? computedURI.limit ?? null;
   const dispatcher = options.agent ?? computedURI.agent ?? void 0;

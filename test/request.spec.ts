@@ -25,6 +25,17 @@ describe("http.get", () => {
     expect(typeof data.uptime).toStrictEqual("number");
   });
 
+  it("should GET query parameters provided to fastify", async() => {
+    const { data } = await get<{ name: string }>("/local/qs", {
+      querystring: new URLSearchParams({
+        name: "foobar"
+      })
+    });
+
+    expect("name" in data).toStrictEqual(true);
+    expect(data.name).toStrictEqual("foobar");
+  });
+
   it("should GET uptime by following an HTTP redirection from local fastify server", async() => {
     const { data } = await get<{ uptime: number }>("/local/redirect", { maxRedirections: 1 });
 
