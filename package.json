@@ -46,7 +46,7 @@
   },
   "dependencies": {
     "content-type": "^1.0.4",
-    "lru-cache": "^7.10.1",
+    "lru-cache": "^7.13.1",
     "statuses": "^2.0.1",
     "undici": "^5.5.1"
   }
