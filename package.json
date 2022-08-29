@@ -30,24 +30,24 @@
   },
   "homepage": "https://github.com/MyUnisoft/httpie#readme",
   "devDependencies": {
-    "@nodesecure/eslint-config": "^1.4.1",
+    "@nodesecure/eslint-config": "^1.5.0",
     "@slimio/is": "^1.5.1",
     "@types/content-type": "^1.1.5",
     "@types/jest": "^27.5.1",
     "@types/lru-cache": "^7.10.10",
-    "@types/node": "^18.0.0",
+    "@types/node": "^18.7.13",
     "@types/statuses": "^2.0.0",
     "dotenv": "^16.0.1",
-    "fastify": "^4.0.3",
+    "fastify": "^4.5.3",
     "jest": "^27.5.1",
     "p-ratelimit": "^1.0.1",
     "ts-jest": "^27.1.4",
-    "typescript": "^4.7.3"
+    "typescript": "^4.8.2"
   },
   "dependencies": {
     "content-type": "^1.0.4",
-    "lru-cache": "^7.13.1",
+    "lru-cache": "^7.14.0",
     "statuses": "^2.0.1",
-    "undici": "^5.8.0"
+    "undici": "^5.10.0"
   }
 }
