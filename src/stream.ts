@@ -3,10 +3,9 @@ import { Duplex, Writable } from "stream";
 
 // Import Third-party Dependencies
 import * as undici from "undici";
-import { HttpMethod } from "undici/types/dispatcher";
 
 // Import Internal Dependencies
-import { ReqOptions } from "./request";
+import { ReqOptions, HttpMethod } from "./request";
 import { computeURI } from "./agents";
 import * as Utils from "./utils";
 

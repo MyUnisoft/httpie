@@ -4,13 +4,13 @@ import { URLSearchParams } from "url";
 
 // Import Third-party Dependencies
 import * as undici from "undici";
-import { HttpMethod } from "undici/types/dispatcher";
 import status from "statuses";
 
 // Import Internal Dependencies
 import * as Utils from "./utils";
 import { computeURI } from "./agents";
 
+export type HttpMethod = "GET" | "HEAD" | "POST" | "PUT" | "DELETE" | "CONNECT" | "OPTIONS" | "TRACE" | "PATCH";
 export type InlineCallbackAction = <T>(fn: () => Promise<T>) => Promise<T>;
 
 export interface ReqOptions {
