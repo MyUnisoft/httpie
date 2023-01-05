@@ -8,9 +8,21 @@
 </p>
 
 <p align="center">
-    <a href="https://github.com/MyUnisoft/httpie"><img src="https://img.shields.io/github/package-json/v/MyUnisoft/httpie?style=flat-square" alt="npm version"></a>
-    <a href="https://github.com/MyUnisoft/httpie"><img src="https://img.shields.io/github/license/MyUnisoft/httpie?style=flat-square" alt="license"></a>
-    <a href="https://github.com/MyUnisoft/httpie"><img src="https://img.shields.io/github/languages/code-size/MyUnisoft/httpie?style=flat-square" alt="size"></a>
+    <a href="https://github.com/MyUnisoft/httpie">
+      <img src="https://img.shields.io/github/package-json/v/MyUnisoft/httpie?style=flat-square" alt="npm version">
+    </a>
+    <a href="https://github.com/MyUnisoft/httpie">
+      <img src="https://img.shields.io/github/license/MyUnisoft/httpie?style=flat-square" alt="license">
+    </a>
+    <a href="https://api.securityscorecards.dev/projects/github.com/MyUnisoft/httpie">
+      <img src="https://api.securityscorecards.dev/projects/github.com/MyUnisoft/httpie/badge" alt="ossf scorecard">
+    </a>
+    <a href="https://github.com/MyUnisoft/httpie/actions?query=workflow%3A%22Node.js+CI%22">
+      <img src="https://img.shields.io/github/actions/workflow/status/MyUnisoft/httpie/node.js.yml" alt="github ci workflow">
+    </a>
+    <a href="https://github.com/MyUnisoft/httpie">
+      <img src="https://img.shields.io/github/languages/code-size/MyUnisoft/httpie?style=flat-square" alt="size">
+    </a>
 </p>
 
 ## 📢 About
