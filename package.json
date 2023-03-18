@@ -31,7 +31,7 @@
   "homepage": "https://github.com/MyUnisoft/httpie#readme",
   "devDependencies": {
     "@nodesecure/eslint-config": "^1.5.0",
-    "@slimio/is": "^1.5.1",
+    "@slimio/is": "^2.0.0",
     "@types/content-type": "^1.1.5",
     "@types/jest": "^27.5.1",
     "@types/lru-cache": "^7.10.10",
