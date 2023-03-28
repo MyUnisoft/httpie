@@ -41,8 +41,9 @@ export function getEncodingCharset(charset = kDefaultEncodingCharset): BufferEnc
  * If the response as a content type equal to 'application/json' we automatically parse it with JSON.parse().
  */
 export async function parseUndiciResponse<T>(response: Dispatcher.ResponseData): Promise<T | string> {
+  const contentTypeHeader = response.headers["content-type"] as string | undefined;
   const { type, parameters } = contentType.parse(
-    response.headers["content-type"] ?? kDefaultMimeType
+    contentTypeHeader ?? kDefaultMimeType
   );
   response.body.setEncoding(getEncodingCharset(parameters.charset));
 
