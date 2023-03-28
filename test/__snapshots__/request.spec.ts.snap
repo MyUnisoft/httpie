@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`http.get should throw a 404 Not Found error because the path is not known 1`] = `
-"<!DOCTYPE HTML PUBLIC \\"-//IETF//DTD HTML 2.0//EN\\">
+"<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
 <html><head>
 <title>404 Not Found</title>
 </head><body>
