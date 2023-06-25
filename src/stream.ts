@@ -5,13 +5,17 @@ import { Duplex, Writable } from "stream";
 import * as undici from "undici";
 
 // Import Internal Dependencies
-import { ReqOptions, HttpMethod } from "./request";
+import { ReqOptions, HttpMethod, WebDavMethod } from "./request";
 import { computeURI } from "./agents";
 import * as Utils from "./utils";
 
 export type StreamOptions = Omit<ReqOptions, "limit">;
 
-export function pipeline(method: HttpMethod, uri: string | URL, options: StreamOptions = {}): Duplex {
+export function pipeline(
+  method: HttpMethod | WebDavMethod,
+  uri: string | URL,
+  options: StreamOptions = {}
+): Duplex {
   const { maxRedirections = 0 } = options;
 
   const computedURI = computeURI(uri);
@@ -27,13 +31,17 @@ export function pipeline(method: HttpMethod, uri: string | URL, options: StreamO
   const body = Utils.createBody(options.body, headers);
 
   return undici.pipeline(computedURI.url, {
-    method, headers, body, dispatcher, maxRedirections
+    method: method as HttpMethod, headers, body, dispatcher, maxRedirections
   }, ({ body }) => body);
 }
 
 export type WritableStreamCallback = (writable: Writable) => Promise<undici.Dispatcher.StreamData>;
 
-export function stream(method: HttpMethod, uri: string | URL, options: StreamOptions = {}): WritableStreamCallback {
+export function stream(
+  method: HttpMethod | WebDavMethod,
+  uri: string | URL,
+  options: StreamOptions = {}
+): WritableStreamCallback {
   const { maxRedirections = 0 } = options;
   const computedURI = computeURI(uri);
 
@@ -42,5 +50,9 @@ export function stream(method: HttpMethod, uri: string | URL, options: StreamOpt
   const body = Utils.createBody(options.body, headers);
 
   return (writable: Writable) => undici
-    .stream(computedURI.url, { method, headers, body, dispatcher, maxRedirections }, () => writable);
+    .stream(
+      computedURI.url,
+      { method: method as HttpMethod, headers, body, dispatcher, maxRedirections },
+      () => writable
+    );
 }
