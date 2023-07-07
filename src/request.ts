@@ -10,7 +10,8 @@ import status from "statuses";
 import * as Utils from "./utils";
 import { computeURI } from "./agents";
 
-export type HttpMethod = "GET" | "HEAD" | "POST" | "PUT" | "DELETE" | "CONNECT" | "OPTIONS" | "TRACE" | "PATCH";
+export type WebDavMethod = "MKCOL" | "COPY" | "MOVE" | "LOCK" | "UNLOCK" | "PROPFIND" | "PROPPATCH";
+export type HttpMethod = "GET" | "HEAD" | "POST" | "PUT" | "DELETE" | "CONNECT" | "OPTIONS" | "TRACE" | "PATCH" ;
 export type InlineCallbackAction = <T>(fn: () => Promise<T>) => Promise<T>;
 
 export interface ReqOptions {
@@ -42,7 +43,11 @@ export interface RequestResponse<T> {
  * const { statusCode, data } = await request("GET", "https://ws-dev.myunisoft.fr/ws_monitoring");
  * console.log(statusCode, data); // 200 "true"
  */
-export async function request<T>(method: HttpMethod, uri: string | URL, options: ReqOptions = {}): Promise<RequestResponse<T>> {
+export async function request<T>(
+  method: HttpMethod | WebDavMethod,
+  uri: string | URL,
+  options: ReqOptions = {}
+): Promise<RequestResponse<T>> {
   const { maxRedirections = 0 } = options;
 
   const computedURI = computeURI(uri);
@@ -59,7 +64,7 @@ export async function request<T>(method: HttpMethod, uri: string | URL, options:
   const headers = Utils.createHeaders({ headers: options.headers, authorization: options.authorization });
   const body = Utils.createBody(options.body, headers);
 
-  const requestOptions = { method, headers, body, dispatcher, maxRedirections };
+  const requestOptions = { method: method as HttpMethod, headers, body, dispatcher, maxRedirections };
   const requestResponse = limit === null ?
     await undici.request(computedURI.url, requestOptions) :
     await limit(() => undici.request(computedURI.url, requestOptions));
