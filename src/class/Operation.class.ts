@@ -1,11 +1,8 @@
 // Import Node.js Dependencies
-import { promisify } from "util";
+import timers from "node:timers/promises";
 
 // Import Internal Dependencies
 import { RetryOptions } from "../retry";
-
-// VARS
-const setTimeoutAysnc = promisify(setTimeout);
 
 // CONSTANTS
 const kDefaultOperationOptions: Partial<RetryOptions> = {
@@ -85,7 +82,7 @@ export default class Operation<T> {
     const signal = this.signal ?? void 0;
     this.continueExecution = true;
 
-    await setTimeoutAysnc(timeout, void 0, { ref: this.unref, signal });
+    await timers.setTimeout(timeout, void 0, { ref: this.unref, signal });
     this.ensureAbort();
 
     this.elapsedTimeoutTime += timeout;
