@@ -1,6 +1,6 @@
 // Import Third-party Dependencies
 import { Agent, ProxyAgent, MockAgent } from "undici";
-import LRU from "lru-cache";
+import { LRUCache } from "lru-cache";
 
 // Import Internal Dependencies
 import { InlineCallbackAction } from "./request";
@@ -12,7 +12,7 @@ const kEnvName = getCurrentEnv();
 /**
  * @see https://en.wikipedia.org/wiki/Page_replacement_algorithm
  */
-export const URICache = new LRU<string | URL, computedUrlAndAgent>({
+export const URICache = new LRUCache<string | URL, computedUrlAndAgent>({
   max: 100,
   ttl: 1_000 * 60 * 120
 });
