@@ -5,11 +5,11 @@ import { Duplex, Writable } from "stream";
 import * as undici from "undici";
 
 // Import Internal Dependencies
-import { ReqOptions, HttpMethod, WebDavMethod } from "./request";
+import { RequestOptions, HttpMethod, WebDavMethod } from "./request";
 import { computeURI } from "./agents";
 import * as Utils from "./utils";
 
-export type StreamOptions = Omit<ReqOptions, "limit">;
+export type StreamOptions = Omit<RequestOptions, "limit">;
 
 export function pipeline(
   method: HttpMethod | WebDavMethod,

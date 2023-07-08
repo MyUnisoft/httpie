@@ -8,7 +8,7 @@ import * as contentType from "content-type";
 import { Dispatcher } from "undici";
 
 // Import Internal Dependencies
-import { RequestResponse, ReqOptions } from "./request";
+import { RequestResponse, RequestOptions } from "./request";
 
 // CONSTANTS
 const kDefaultMimeType = "text/plain";
@@ -69,7 +69,7 @@ export async function parseUndiciResponse<T>(response: Dispatcher.ResponseData):
  * - User-agent
  * - Authorization
  */
-export function createHeaders(options: Partial<Pick<ReqOptions, "headers" | "authorization">>): IncomingHttpHeaders {
+export function createHeaders(options: Partial<Pick<RequestOptions, "headers" | "authorization">>): IncomingHttpHeaders {
   const headers = Object.assign(options.headers ?? {}, DEFAULT_HEADER);
   if (options.authorization) {
     headers.Authorization = createAuthorizationHeader(options.authorization);

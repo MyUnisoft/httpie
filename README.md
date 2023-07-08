@@ -36,6 +36,7 @@ The package is inspired by lukeed [httpie](https://github.com/lukeed/httpie) (Th
 - Able to automatically detect domains and paths to assign the right Agent (use a LRU cache to avoid repetitive computation).
 - Allows to use an accurate rate-limiter like `p-ratelimit` with the `limit` option.
 - Built-in retry mechanism with **custom policies**.
+- Safe error handling with Rust-like [Result](https://github.com/OpenAlly/npm-packages/tree/main/src/result).
 
 Thanks to undici:
 
@@ -90,6 +91,23 @@ catch (error) {
   console.log(error.headers);
   console.log(error.data);
 }
+```
+
+Since v2.0.0 you can also use the `safe` prefix API to get a `Promise<Result<T, E>>`
+
+```ts
+import * as httpie from "@myunisoft/httpie";
+
+const response = (await httpie.safePost("https://jsonplaceholder.typicode.com/posts", {
+  body: {
+    title: "foo",
+    body: "bar",
+    userId: 1
+  }
+}))
+  .map((response) => response.data)
+  .mapErr((error) => new Error("a message here!", { cause: error.data }));
+  .unwrap();
 ```
 
 > 👀 For more examples of use please look at the root folder **examples**.

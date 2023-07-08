@@ -2,7 +2,7 @@
 import { FastifyInstance } from "fastify";
 
 // Import Internal Dependencies
-import { get, post, put, patch, del } from "../src/index";
+import { get, post, put, patch, del, safeGet } from "../src/index";
 
 // Helpers and mock
 import { createServer } from "./server/index";
@@ -159,5 +159,30 @@ describe("http.del", () => {
       body: { title: "foo" }
     });
     expect(statusCode).toStrictEqual(200);
+  });
+});
+
+describe("http.safeGet", () => {
+  it("should GET uptime from local fastify server", async() => {
+    const result = await safeGet<{ uptime: number }, any>("/local/");
+
+    expect(result.ok).toStrictEqual(true);
+    const { data } = result.unwrap();
+    expect("uptime" in data).toStrictEqual(true);
+    expect(typeof data.uptime).toStrictEqual("number");
+  });
+
+  it("should throw a 404 Not Found error because the path is not known", async() => {
+    const result = await safeGet<string, any>("/windev/hlkezcjcke");
+    expect(result.err).toStrictEqual(true);
+
+    if (result.err) {
+      const error = result.val;
+
+      expect(error.name).toStrictEqual("Error");
+      expect(error.statusCode).toStrictEqual(404);
+      expect(error.statusMessage).toStrictEqual("Not Found");
+      expect(error.data).toMatchSnapshot();
+    }
   });
 });
