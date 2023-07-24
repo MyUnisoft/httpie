@@ -12,7 +12,8 @@ import {
   BodyInit,
   BodyMixin,
   MockAgent,
-  mockErrors
+  mockErrors,
+  MockPool
 } from "undici";
 
 export * from "./request";
@@ -36,5 +37,6 @@ export {
   BodyInit,
   BodyMixin,
   MockAgent,
-  mockErrors
+  mockErrors,
+  MockPool
 };
