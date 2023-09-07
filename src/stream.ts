@@ -18,7 +18,7 @@ export function pipeline(
 ): Duplex {
   const { maxRedirections = 0 } = options;
 
-  const computedURI = computeURI(uri);
+  const computedURI = computeURI(method, uri);
   if (typeof options.querystring !== "undefined") {
     const qs = typeof options.querystring === "string" ? new URLSearchParams(options.querystring) : options.querystring;
     for (const [key, value] of qs.entries()) {
@@ -43,7 +43,7 @@ export function stream(
   options: StreamOptions = {}
 ): WritableStreamCallback {
   const { maxRedirections = 0 } = options;
-  const computedURI = computeURI(uri);
+  const computedURI = computeURI(method, uri);
 
   const dispatcher = options.agent ?? computedURI.agent ?? void 0;
   const headers = Utils.createHeaders({ headers: options.headers, authorization: options.authorization });

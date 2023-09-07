@@ -3,7 +3,7 @@ import { Agent, ProxyAgent, MockAgent } from "undici";
 import { LRUCache } from "lru-cache";
 
 // Import Internal Dependencies
-import { InlineCallbackAction } from "./request";
+import { InlineCallbackAction, HttpMethod, WebDavMethod } from "./request";
 import { getCurrentEnv } from "./utils";
 
 // CONSTANTS
@@ -97,9 +97,13 @@ export function detectAgentFromURI(uri: URL): CustomHttpAgent | null {
  * @description Compute a given URI (format string or WHATWG URL) and return a fully build URL and paired agent.
  * Under the hood it use a LRU cache
  */
-export function computeURI(uri: string | URL): computedUrlAndAgent {
-  if (URICache.has(uri)) {
-    return URICache.get(uri)!;
+export function computeURI(
+  method: HttpMethod | WebDavMethod,
+  uri: string | URL
+): computedUrlAndAgent {
+  const uriStr = method.toUpperCase() + uri.toString();
+  if (URICache.has(uriStr)) {
+    return URICache.get(uriStr)!;
   }
 
   let response: computedUrlAndAgent;
@@ -111,7 +115,7 @@ export function computeURI(uri: string | URL): computedUrlAndAgent {
 
     response = { url: uri, agent: agent?.agent ?? null, limit: agent?.limit };
   }
-  URICache.set(uri, response);
+  URICache.set(uriStr, response);
 
   return response;
 }
