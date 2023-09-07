@@ -68,34 +68,44 @@ describe("computeURI", () => {
   });
 
   it("should compute a windev URI (as string)", () => {
-    const result = Agents.computeURI(kWindevMonitoringURL);
+    const result = Agents.computeURI("GET", kWindevMonitoringURL);
 
     expect(result.url.href).toStrictEqual(kWindevMonitoringURL);
     expect(result.agent).toStrictEqual(windev.agent);
 
-    expect(Agents.URICache.has(kWindevMonitoringURL)).toStrictEqual(true);
+    expect(Agents.URICache.has("GET" + kWindevMonitoringURL)).toStrictEqual(true);
   });
 
   it("should compute a windev URI (as WHATWG URL)", () => {
     const localURL = new URL(kWindevMonitoringURL);
-    const result = Agents.computeURI(localURL);
+    const result = Agents.computeURI("POST", localURL);
 
     expect(result.url.href).toStrictEqual(kWindevMonitoringURL);
     expect(result.agent).toStrictEqual(windev.agent);
 
-    expect(Agents.URICache.has(localURL)).toStrictEqual(true);
+    expect(Agents.URICache.has("POST" + localURL.toString())).toStrictEqual(true);
   });
 
   it("should return cached entry", () => {
-    Agents.URICache.set(kWindevMonitoringURL, true as any);
-    const result = Agents.computeURI(kWindevMonitoringURL) as unknown as boolean;
+    Agents.URICache.set("GET" + kWindevMonitoringURL, true as any);
+    const result = Agents.computeURI("GET", kWindevMonitoringURL) as unknown as boolean;
 
     expect(result).toStrictEqual(true);
   });
 
+  it("should not return cached entry because method doesn't match", () => {
+    Agents.URICache.set("POST" + kWindevMonitoringURL, true as any);
+    const result = Agents.computeURI("GET", kWindevMonitoringURL);
+
+    expect(result.url.href).toStrictEqual(kWindevMonitoringURL);
+    expect(result.agent).toStrictEqual(windev.agent);
+
+    expect(Agents.URICache.has("GET" + kWindevMonitoringURL)).toStrictEqual(true);
+  });
+
   it("should compute an URL not related to any local agents", () => {
     const stringURL = "https://www.linkedin.com/feed/";
-    const result = Agents.computeURI(new URL("", stringURL));
+    const result = Agents.computeURI("GET", new URL("", stringURL));
 
     expect(result.url.href).toStrictEqual(stringURL);
     expect(result.agent).toStrictEqual(null);

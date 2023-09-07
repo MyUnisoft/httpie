@@ -58,7 +58,7 @@ export async function request<T>(
 ): Promise<RequestResponse<T>> {
   const { maxRedirections = 0 } = options;
 
-  const computedURI = computeURI(uri);
+  const computedURI = computeURI(method, uri);
   if (typeof options.querystring !== "undefined") {
     const qs = typeof options.querystring === "string" ? new URLSearchParams(options.querystring) : options.querystring;
     for (const [key, value] of qs.entries()) {
