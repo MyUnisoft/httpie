@@ -13,7 +13,8 @@ import {
   BodyMixin,
   MockAgent,
   mockErrors,
-  MockPool
+  MockPool,
+  Interceptable
 } from "undici";
 
 export * from "./request";
@@ -22,7 +23,6 @@ export * from "./retry";
 export * as policies from "./policies";
 export { agents, computeURI, CustomHttpAgent } from "./agents";
 export { DEFAULT_HEADER } from "./utils";
-
 
 export {
   Agent,
@@ -38,5 +38,6 @@ export {
   BodyMixin,
   MockAgent,
   mockErrors,
-  MockPool
+  MockPool,
+  Interceptable
 };
