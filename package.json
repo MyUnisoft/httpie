@@ -48,6 +48,6 @@
     "content-type": "^1.0.5",
     "lru-cache": "^10.0.1",
     "statuses": "^2.0.1",
-    "undici": "^5.23.0"
+    "undici": "^6.0.0"
   }
 }
