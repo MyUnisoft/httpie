@@ -41,20 +41,14 @@ export function getEncodingCharset(charset = kDefaultEncodingCharset): BufferEnc
  * If the response as a content type equal to 'application/json' we automatically parse it with JSON.parse().
  */
 export async function parseUndiciResponse<T>(response: Dispatcher.ResponseData): Promise<T | string> {
+  const body = await response.body.text();
   const contentTypeHeader = response.headers["content-type"] as string | undefined;
-  const { type, parameters } = contentType.parse(
+  const { type } = contentType.parse(
     contentTypeHeader ?? kDefaultMimeType
   );
-  response.body.setEncoding(getEncodingCharset(parameters.charset));
-
-  // Reading the Node.js Stream with the AsyncIterable interface.
-  let body = "";
-  for await (const data of response.body) {
-    body += data;
-  }
 
   try {
-    return type === "application/json" ? JSON.parse(body) : body;
+    return type === "application/json" && body ? JSON.parse(body) : body;
   }
   catch (error) {
     // Note: Even in case of an error we want to be able to recover the body that caused the JSON parsing error.
