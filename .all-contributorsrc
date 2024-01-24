@@ -27,6 +27,16 @@
         "code",
         "test"
       ]
+    },
+    {
+      "login": "SofianD",
+      "name": "Yefis",
+      "avatar_url": "https://avatars.githubusercontent.com/u/39944043?v=4",
+      "profile": "http://sofiand.github.io/portfolio-client/",
+      "contributions": [
+        "code",
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
