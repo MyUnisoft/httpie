@@ -164,7 +164,11 @@ describe("parseUndiciResponse", () => {
 
   it("should parse a JSON response with no errors", async() => {
     const payload = JSON.stringify({ foo: "bar" });
-    const body = stream.Readable.from(payload) as any;
+    const body: any = {
+      text() {
+        return Promise.resolve(payload);
+      }
+    };
 
     const data = await Utils.parseUndiciResponse<{ foo: string }>({
       ...defaultUndiciResponseMeta, body,
@@ -180,7 +184,11 @@ describe("parseUndiciResponse", () => {
     expect.assertions(1);
 
     const payload = "{\"foo\": bar}";
-    const body = stream.Readable.from(payload) as any;
+    const body: any = {
+      text() {
+        return Promise.resolve(payload);
+      }
+    };
 
     try {
       await Utils.parseUndiciResponse<{ foo: string }>({
@@ -197,7 +205,11 @@ describe("parseUndiciResponse", () => {
 
   it("should parse the response as a plain/text", async() => {
     const payload = "hello world!";
-    const body = stream.Readable.from(payload) as any;
+    const body: any = {
+      text() {
+        return Promise.resolve(payload);
+      }
+    };
 
     const data = await Utils.parseUndiciResponse<string>({
       ...defaultUndiciResponseMeta, body, headers: {}
