@@ -1,5 +1,6 @@
 // Import Node.js Dependencies
 import { IncomingHttpHeaders } from "http2";
+import { gzipSync } from "zlib";
 import stream from "stream";
 
 // Import Internal Dependencies
@@ -216,6 +217,54 @@ describe("parseUndiciResponse", () => {
     });
 
     expect(data).toStrictEqual(payload);
+  });
+
+  it("must unzip data when there is a 'content-encoding' header set with 'gzip' before to converting it to a string", async() => {
+    const payload = "hello world!";
+    const body: any = {
+      async arrayBuffer() {
+        return gzipSync(payload);
+      }
+    };
+    const data = await Utils.parseUndiciResponse<string>({
+      ...defaultUndiciResponseMeta, body, headers: {
+        "content-encoding": "gzip"
+      }
+    });
+
+    expect(data).toStrictEqual(payload);
+  });
+
+  it("must unzip data when there is a 'content-encoding' header set with 'gzip' before to converting it to JSON", async() => {
+    const payload = { foo: "hello world!" };
+    const body: any = {
+      async arrayBuffer() {
+        return gzipSync(JSON.stringify(payload));
+      }
+    };
+
+    const data = await Utils.parseUndiciResponse<string>({
+      ...defaultUndiciResponseMeta, body, headers: {
+        "content-encoding": "gzip",
+        "content-type": "application/json; charset=utf-8"
+      }
+    });
+
+    expect(data).toStrictEqual(payload);
+  });
+
+  it("should not unzip data when 'content-encoding' header is not set", async() => {
+    const payload = "hello world!";
+    const buf = gzipSync(payload);
+    const body: any = {
+      text: () => buf.toString()
+    };
+
+    const data = await Utils.parseUndiciResponse<string>({
+      ...defaultUndiciResponseMeta, body, headers: {}
+    });
+
+    expect(data).toStrictEqual(buf.toString());
   });
 });
 
