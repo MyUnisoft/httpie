@@ -1,7 +1,9 @@
 /* eslint-disable no-redeclare */
 
 // Import Node.js Dependencies
-import { IncomingHttpHeaders } from "http";
+import { gunzip } from "node:zlib";
+import { promisify } from "node:util";
+import { IncomingHttpHeaders } from "node:http";
 
 // Import Third-party Dependencies
 import * as contentType from "content-type";
@@ -17,6 +19,7 @@ const kDefaultEncodingCharset = "utf-8";
 const kCharsetConversionTable = {
   "ISO-8859-1": "latin1"
 };
+const kAsyncGunzip = promisify(gunzip);
 
 export const DEFAULT_HEADER = { "user-agent": kDefaultUserAgent };
 
@@ -41,13 +44,21 @@ export function getEncodingCharset(charset = kDefaultEncodingCharset): BufferEnc
  * If the response as a content type equal to 'application/json' we automatically parse it with JSON.parse().
  */
 export async function parseUndiciResponse<T>(response: Dispatcher.ResponseData): Promise<T | string> {
-  const body = await response.body.text();
   const contentTypeHeader = response.headers["content-type"] as string | undefined;
-  const { type } = contentType.parse(
+  const { type, parameters } = contentType.parse(
     contentTypeHeader ?? kDefaultMimeType
   );
 
+  let body;
   try {
+    if (response.headers["content-encoding"] === "gzip") {
+      const buf = await response.body.arrayBuffer();
+      body = (await kAsyncGunzip(buf)).toString(getEncodingCharset(parameters.charset));
+    }
+    else {
+      body = await response.body.text();
+    }
+
     return type === "application/json" && body ? JSON.parse(body) : body;
   }
   catch (error) {
