@@ -14,4 +14,16 @@ const kGithubURL = new URL("https://github.com/");
 const cursor = httpie.stream("GET", new URL("NodeSecure/i18n/archive/main.tar.gz", kGithubURL), {
   maxRedirections: 1
 });
-await cursor(fs.createWriteStream(path.join(__dirname, "archive.tar.gz")));
+
+const writable = fs.createWriteStream(path.join(__dirname, "archive.tar.gz"));
+
+let code;
+let contentType;
+await cursor(({ statusCode, headers }) => {
+  code = statusCode;
+  contentType = headers["content-type"];
+
+  return writable;
+});
+
+console.log(code, contentType);
