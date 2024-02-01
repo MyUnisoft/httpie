@@ -14,7 +14,8 @@ import {
   MockAgent,
   mockErrors,
   MockPool,
-  Interceptable
+  Interceptable,
+  Client
 } from "undici";
 
 export * from "./request";
@@ -39,5 +40,6 @@ export {
   MockAgent,
   mockErrors,
   MockPool,
-  Interceptable
+  Interceptable,
+  Client
 };
