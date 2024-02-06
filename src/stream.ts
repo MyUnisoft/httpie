@@ -1,5 +1,5 @@
 // Import Node.js Dependencies
-import { Duplex, Writable } from "stream";
+import { Duplex } from "stream";
 
 // Import Third-party Dependencies
 import * as undici from "undici";
@@ -35,7 +35,9 @@ export function pipeline(
   }, ({ body }) => body);
 }
 
-export type WritableStreamCallback = (writable: Writable) => Promise<undici.Dispatcher.StreamData>;
+export type WritableStreamCallback = (
+  factory: undici.Dispatcher.StreamFactory
+) => Promise<undici.Dispatcher.StreamData>;
 
 export function stream(
   method: HttpMethod | WebDavMethod,
@@ -49,10 +51,10 @@ export function stream(
   const headers = Utils.createHeaders({ headers: options.headers, authorization: options.authorization });
   const body = Utils.createBody(options.body, headers);
 
-  return (writable: Writable) => undici
+  return (factory) => undici
     .stream(
       computedURI.url,
       { method: method as HttpMethod, headers, body, dispatcher, maxRedirections },
-      () => writable
+      factory
     );
 }

@@ -27,6 +27,32 @@ afterAll(async() => {
 });
 
 describe("stream", () => {
+  it("should use callback dispatcher to init headers/statusCode etc.", async() => {
+    const fileDestination = path.join(kDownloadPath, "i18n-main.tar.gz");
+    const repositoryURL = new URL("NodeSecure/i18n/archive/main.tar.gz", kGithubURL);
+
+    const cursor = httpie.stream("GET", repositoryURL, {
+      headers: {
+        "User-Agent": "httpie",
+        "Accept-Encoding": "gzip, deflate"
+      },
+      maxRedirections: 1
+    });
+
+    let contentType = "";
+    let code = 0;
+    await cursor(({ headers, statusCode }) => {
+      contentType = headers["content-type"] as string;
+      code = statusCode;
+
+      return createWriteStream(fileDestination);
+    });
+
+    expect(existsSync(fileDestination)).toStrictEqual(true);
+    expect(contentType).toBe("application/x-gzip");
+    expect(code).toBe(200);
+  });
+
   it("should fetch a .tar.gz of a given github repository", async() => {
     const fileDestination = path.join(kDownloadPath, "i18n-main.tar.gz");
     const repositoryURL = new URL("NodeSecure/i18n/archive/main.tar.gz", kGithubURL);
@@ -37,7 +63,7 @@ describe("stream", () => {
         "Accept-Encoding": "gzip, deflate"
       },
       maxRedirections: 1
-    })(createWriteStream(fileDestination));
+    })(() => createWriteStream(fileDestination));
 
     expect(existsSync(fileDestination)).toStrictEqual(true);
   });
@@ -45,7 +71,7 @@ describe("stream", () => {
   it("should fetch the HTML home from the local fastify server", async() => {
     const fileDestination = path.join(kDownloadPath, "home.html");
 
-    await httpie.stream("GET", "/stream/home")(createWriteStream(fileDestination));
+    await httpie.stream("GET", "/stream/home")(() => createWriteStream(fileDestination));
 
     expect(existsSync(fileDestination)).toStrictEqual(true);
     const [contentA, contentB] = await Promise.all([
