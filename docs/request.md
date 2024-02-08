@@ -4,17 +4,24 @@ The request method is the root method for making http requests. Short method lik
 The method **options** and **response** are described by the following TypeScript interfaces:
 
 ```ts
+type ModeOfHttpieResponseHandler = "decompress" | "parse" | "raw";
+
 export interface RequestOptions {
-  /** Default: 0 */
+  /** @default 0 */
   maxRedirections?: number;
-  /** Default: { "user-agent": "httpie" } */
+  /** @default{ "user-agent": "httpie" } */
   headers?: IncomingHttpHeaders;
+  querystring?: string | URLSearchParams;
   body?: any;
   authorization?: string;
   // Could be dynamically computed depending on the provided URI.
-  agent?: undici.Agent;
-    // API limiter from a package like "p-ratelimit"
+  agent?: undici.Agent | undici.ProxyAgent | undici.MockAgent;
+  /** @description API limiter from a package like `p-ratelimit`. */
   limit?: InlineCallbackAction;
+  /** @default "parse" */
+  mode?: ModeOfHttpieResponseHandler;
+  /** @default true */
+  throwOnHttpError?: boolean;
 }
 
 export interface RequestResponse<T> {
@@ -55,22 +62,3 @@ export const put = request.bind(null, "PUT") as RequestCallback;
 export const del = request.bind(null, "DELETE") as RequestCallback;
 export const patch = request.bind(null, "PATCH") as RequestCallback;
 ```
-
-## error
-
-Errors are triggered if the returned statusCode is equal or higher than 400. It can occur in case of error when reading the response body (for example an invalid JSON).
-
-The triggered error is constructed as follows:
-
-```ts
-export function toError<T>(response: RequestResponse<T>) {
-  const err = new Error(response.statusMessage) as Error & RequestResponse<T>;
-  err.statusMessage = response.statusMessage;
-  err.statusCode = response.statusCode;
-  err.headers = response.headers;
-  err.data = response.data;
-
-  return err;
-}
-```
-

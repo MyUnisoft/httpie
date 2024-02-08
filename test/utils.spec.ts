@@ -1,10 +1,11 @@
 // Import Node.js Dependencies
-import { IncomingHttpHeaders } from "http2";
-import { gzipSync } from "zlib";
-import stream from "stream";
+import { IncomingHttpHeaders } from "node:http2";
+import stream from "node:stream";
 
 // Import Internal Dependencies
 import * as Utils from "../src/utils";
+import { HttpieOnHttpError } from "../src/class/HttpieOnHttpError";
+import { HttpieDecompressionError, HttpieFetchBodyError, HttpieParserError } from "../src/class/HttpieHandlerError";
 
 describe("isAsyncIterable", () => {
   it("should return false for synchronous iterable like an Array", () => {
@@ -140,131 +141,34 @@ describe("createAuthorizationHeader", () => {
   });
 });
 
-describe("toError", () => {
-  it("it should create an Error with the properties of RequestResponse", () => {
-    const reqResponse = {
-      statusCode: 404,
-      statusMessage: "Not Found",
-      data: null,
-      headers: {}
-    };
 
-    const error = Utils.toError(reqResponse);
-    expect(error.name).toStrictEqual("Error");
-    expect(error).toMatchObject(reqResponse);
+describe("isHttpieError", () => {
+  it("it should be true", () => {
+    expect(Utils.isHttpieError(new HttpieOnHttpError({} as any))).toBeTruthy();
+    expect(Utils.isHttpieError(new HttpieFetchBodyError({ message: "ResponseFetchError", response: {} } as any))).toBeTruthy();
+    expect(
+      Utils.isHttpieError(new HttpieDecompressionError({ message: "UnexpectedDecompressionError", response: {} } as any))
+    ).toBeTruthy();
+    expect(Utils.isHttpieError(new HttpieParserError({ message: "ResponseParsingError", response: {} } as any))).toBeTruthy();
+  });
+
+  it("it should be false", () => {
+    expect(Utils.isHttpieError(new Error())).toBeFalsy();
   });
 });
 
-describe("parseUndiciResponse", () => {
-  const defaultUndiciResponseMeta = {
-    statusCode: 200,
-    context: {},
-    opaque: null,
-    trailers: {}
-  };
-
-  it("should parse a JSON response with no errors", async() => {
-    const payload = JSON.stringify({ foo: "bar" });
-    const body: any = {
-      text() {
-        return Promise.resolve(payload);
-      }
-    };
-
-    const data = await Utils.parseUndiciResponse<{ foo: string }>({
-      ...defaultUndiciResponseMeta, body,
-      headers: {
-        "content-type": "application/json"
-      }
-    });
-
-    expect(data).toMatchObject({ foo: "bar" });
+describe("isHTTPError", () => {
+  it("it should be true", () => {
+    expect(Utils.isHTTPError(new HttpieOnHttpError({} as any))).toBeTruthy();
   });
 
-  it("should parse an invalid JSON response but still keep the body string in the Error", async() => {
-    expect.assertions(1);
-
-    const payload = "{\"foo\": bar}";
-    const body: any = {
-      text() {
-        return Promise.resolve(payload);
-      }
-    };
-
-    try {
-      await Utils.parseUndiciResponse<{ foo: string }>({
-        ...defaultUndiciResponseMeta, body,
-        headers: {
-          "content-type": "application/json"
-        }
-      });
-    }
-    catch (error) {
-      expect(error.body).toStrictEqual(payload);
-    }
-  });
-
-  it("should parse the response as a plain/text", async() => {
-    const payload = "hello world!";
-    const body: any = {
-      text() {
-        return Promise.resolve(payload);
-      }
-    };
-
-    const data = await Utils.parseUndiciResponse<string>({
-      ...defaultUndiciResponseMeta, body, headers: {}
-    });
-
-    expect(data).toStrictEqual(payload);
-  });
-
-  it("must unzip data when there is a 'content-encoding' header set with 'gzip' before to converting it to a string", async() => {
-    const payload = "hello world!";
-    const body: any = {
-      async arrayBuffer() {
-        return gzipSync(payload);
-      }
-    };
-    const data = await Utils.parseUndiciResponse<string>({
-      ...defaultUndiciResponseMeta, body, headers: {
-        "content-encoding": "gzip"
-      }
-    });
-
-    expect(data).toStrictEqual(payload);
-  });
-
-  it("must unzip data when there is a 'content-encoding' header set with 'gzip' before to converting it to JSON", async() => {
-    const payload = { foo: "hello world!" };
-    const body: any = {
-      async arrayBuffer() {
-        return gzipSync(JSON.stringify(payload));
-      }
-    };
-
-    const data = await Utils.parseUndiciResponse<string>({
-      ...defaultUndiciResponseMeta, body, headers: {
-        "content-encoding": "gzip",
-        "content-type": "application/json; charset=utf-8"
-      }
-    });
-
-    expect(data).toStrictEqual(payload);
-  });
-
-  it("should not unzip data when 'content-encoding' header is not set", async() => {
-    const payload = "hello world!";
-    const buf = gzipSync(payload);
-    const body: any = {
-      text: () => buf.toString()
-    };
-
-    const data = await Utils.parseUndiciResponse<string>({
-      ...defaultUndiciResponseMeta, body, headers: {}
-    });
-
-    expect(data).toStrictEqual(buf.toString());
+  it("it should be false", () => {
+    expect(Utils.isHTTPError(new Error())).toBeFalsy();
+    expect(Utils.isHTTPError(new HttpieFetchBodyError({ message: "ResponseFetchError", response: {} } as any))).toBeFalsy();
+    expect(
+      Utils.isHTTPError(new HttpieDecompressionError({ message: "UnexpectedDecompressionError", response: {} } as any))
+    ).toBeFalsy();
+    expect(Utils.isHTTPError(new HttpieParserError({ message: "ResponseParsingError", response: {} } as any))).toBeFalsy();
   });
 });
 

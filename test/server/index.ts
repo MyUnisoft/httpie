@@ -1,7 +1,7 @@
 // Import Node.js Dependencies
-import path from "path";
-import fs from "fs";
-import { Transform } from "stream";
+import path from "node:path";
+import fs from "node:fs";
+import { Transform } from "node:stream";
 
 // Import Third-party Dependencies
 import fastify from "fastify";

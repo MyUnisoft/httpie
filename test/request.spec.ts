@@ -87,21 +87,25 @@ describe("http.get", () => {
       await get<string>("/windev/hlkezcjcke");
     }
     catch (error) {
-      expect(error.name).toStrictEqual("Error");
+      expect(error.name).toStrictEqual("HttpieOnHttpError");
       expect(error.statusCode).toStrictEqual(404);
       expect(error.statusMessage).toStrictEqual("Not Found");
       expect(error.data).toMatchSnapshot();
     }
   });
 
-  it("should throw a 'SyntaxError' with jsonError endpoint from local fastify server", async() => {
-    expect.assertions(1);
+  it("should throw a 'HttpieParserError' with jsonError endpoint from local fastify server", async() => {
+    expect.assertions(4);
 
+    const expectedPayload = "{ 'foo': bar }";
     try {
       await get<string>("/local/jsonError");
     }
     catch (error) {
-      expect(error.name).toStrictEqual("SyntaxError");
+      expect(error.name).toStrictEqual("ResponseParsingError");
+      expect(error.reason.name).toStrictEqual("SyntaxError");
+      expect(error.text).toStrictEqual(expectedPayload);
+      expect(error.buffer).toStrictEqual(Buffer.from(expectedPayload));
     }
   });
 });
@@ -179,7 +183,7 @@ describe("http.safeGet", () => {
     if (result.err) {
       const error = result.val;
 
-      expect(error.name).toStrictEqual("Error");
+      expect(error.name).toStrictEqual("HttpieOnHttpError");
       expect(error.statusCode).toStrictEqual(404);
       expect(error.statusMessage).toStrictEqual("Not Found");
       expect(error.data).toMatchSnapshot();

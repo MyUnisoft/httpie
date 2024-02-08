@@ -1,10 +1,10 @@
+// Import Node.js Dependencies
+import { createWriteStream, createReadStream, existsSync, promises as fs } from "node:fs";
+import path from "node:path";
+import { pipeline } from "node:stream/promises";
+
 // Import Third-party Dependencies
 import { FastifyInstance } from "fastify";
-
-// Import Node.js Dependencies
-import { createWriteStream, createReadStream, existsSync, promises as fs } from "fs";
-import path from "path";
-import { pipeline } from "stream/promises";
 
 // Import Internal Dependencies
 import * as httpie from "../src/index";

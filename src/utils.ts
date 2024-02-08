@@ -1,25 +1,19 @@
 /* eslint-disable no-redeclare */
 
 // Import Node.js Dependencies
-import { gunzip } from "node:zlib";
-import { promisify } from "node:util";
 import { IncomingHttpHeaders } from "node:http";
 
-// Import Third-party Dependencies
-import * as contentType from "content-type";
-import { Dispatcher } from "undici";
-
 // Import Internal Dependencies
-import { RequestResponse, RequestOptions } from "./request";
+import { RequestOptions, RequestResponse } from "./request";
+import { HttpieError } from "./class/HttpieCommonError";
+import { HttpieOnHttpError } from "./class/HttpieOnHttpError";
 
 // CONSTANTS
-const kDefaultMimeType = "text/plain";
 const kDefaultUserAgent = "httpie";
 const kDefaultEncodingCharset = "utf-8";
 const kCharsetConversionTable = {
   "ISO-8859-1": "latin1"
 };
-const kAsyncGunzip = promisify(gunzip);
 
 export const DEFAULT_HEADER = { "user-agent": kDefaultUserAgent };
 
@@ -40,36 +34,6 @@ export function getEncodingCharset(charset = kDefaultEncodingCharset): BufferEnc
 }
 
 /**
- * @description Parse Undici ResponseData (the body is a Node.js Readable Stream).
- * If the response as a content type equal to 'application/json' we automatically parse it with JSON.parse().
- */
-export async function parseUndiciResponse<T>(response: Dispatcher.ResponseData): Promise<T | string> {
-  const contentTypeHeader = response.headers["content-type"] as string | undefined;
-  const { type, parameters } = contentType.parse(
-    contentTypeHeader ?? kDefaultMimeType
-  );
-
-  let body;
-  try {
-    if (response.headers["content-encoding"] === "gzip") {
-      const buf = await response.body.arrayBuffer();
-      body = (await kAsyncGunzip(buf)).toString(getEncodingCharset(parameters.charset));
-    }
-    else {
-      body = await response.body.text();
-    }
-
-    return type === "application/json" && body ? JSON.parse(body) : body;
-  }
-  catch (error) {
-    // Note: Even in case of an error we want to be able to recover the body that caused the JSON parsing error.
-    error.body = body;
-
-    throw error;
-  }
-}
-
-/**
  * @description Create a default plain Object headers that will contains a Set of default values like:
  * - User-agent
  * - Authorization
@@ -81,6 +45,15 @@ export function createHeaders(options: Partial<Pick<RequestOptions, "headers" | 
   }
 
   return headers;
+}
+
+export function isHttpieError(error: unknown): error is HttpieError {
+  return error instanceof HttpieError;
+}
+
+// eslint-disable-next-line max-len
+export function isHTTPError<T extends RequestResponse<any> = RequestResponse<any>>(error: unknown): error is HttpieOnHttpError<T> {
+  return error instanceof HttpieOnHttpError;
 }
 
 export function createBody(body: undefined): undefined;
@@ -109,20 +82,6 @@ export function createBody(body: any, headers: IncomingHttpHeaders = {}): string
   headers["content-length"] = String(Buffer.byteLength(finalBody));
 
   return finalBody;
-}
-
-/**
- * @description Helpers function to generate an Error with all the required properties from the response.
- * We attach them to the error so that they can be retrieved by the developer in a Catch block.
- */
-export function toError<T>(response: RequestResponse<T>) {
-  const err = new Error(response.statusMessage) as Error & RequestResponse<T>;
-  err.statusMessage = response.statusMessage;
-  err.statusCode = response.statusCode;
-  err.headers = response.headers;
-  err.data = response.data;
-
-  return err;
 }
 
 /**
