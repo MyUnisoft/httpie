@@ -12,17 +12,19 @@ import * as Utils from "./utils";
 import { computeURI } from "./agents";
 import { HttpieResponseHandler, ModeOfHttpieResponseHandler } from "./class/undiciResponseHandler";
 import { HttpieOnHttpError } from "./class/HttpieOnHttpError";
+import { HttpieError } from "./class/HttpieCommonError";
+import { HttpieDecompressionError, HttpieFetchBodyError, HttpieParserError } from "./class/HttpieHandlerError";
 
 export type WebDavMethod = "MKCOL" | "COPY" | "MOVE" | "LOCK" | "UNLOCK" | "PROPFIND" | "PROPPATCH";
 export type HttpMethod = "GET" | "HEAD" | "POST" | "PUT" | "DELETE" | "CONNECT" | "OPTIONS" | "TRACE" | "PATCH" ;
 export type InlineCallbackAction = <T>(fn: () => Promise<T>) => Promise<T>;
 
-export interface RequestError<E> extends Error {
-  statusMessage: string;
-  statusCode: number;
-  headers: IncomingHttpHeaders;
-  data: E;
-}
+export type RequestError<T> =
+  Partial<HttpieOnHttpError<RequestResponse<T>>> &
+  Partial<HttpieDecompressionError> &
+  Partial<HttpieFetchBodyError> &
+  Partial<HttpieParserError> &
+  HttpieError;
 
 export interface RequestOptions {
   /** @default 0 */
