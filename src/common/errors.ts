@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 
-interface IGetErrorOptions<T> {
+interface GetErrorOptions<T> {
   error?: Error;
   message: keyof T;
 }
@@ -35,7 +35,7 @@ const kParserErrors = {
 };
 
 function getErrorsByType<T extends Record<string, string | ReturnType<typeof taggedString>>>(errorDirectory: T) {
-  return (options: IGetErrorOptions<T>, ...args: string[]) => {
+  return (options: GetErrorOptions<T>, ...args: string[]) => {
     const { error, message: errorLabel } = options;
     const err = errorDirectory[errorLabel];
 

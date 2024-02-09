@@ -6,7 +6,7 @@ type CommonResponseData = {
   headers: IncomingHttpHeaders;
 }
 
-export interface IHttpieErrorOptions {
+export interface HttpieErrorOptions {
   response: CommonResponseData;
 }
 
@@ -14,7 +14,7 @@ export class HttpieError extends Error {
   headers: IncomingHttpHeaders;
   statusCode: number;
 
-  constructor(message: string, options: IHttpieErrorOptions) {
+  constructor(message: string, options: HttpieErrorOptions) {
     super(message);
 
     this.statusCode = options.response.statusCode;

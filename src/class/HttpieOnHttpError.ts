@@ -10,7 +10,7 @@ export class HttpieOnHttpError<T extends RequestResponse<any>> extends HttpieErr
   name = "HttpieOnHttpError";
 
   statusMessage: string;
-  data: T;
+  data: T["data"];
 
   constructor(response: T) {
     super(response.statusMessage, { response });
