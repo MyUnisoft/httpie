@@ -4,22 +4,24 @@
 import { HttpieError, HttpieErrorOptions } from "./HttpieCommonError";
 import { getDecompressionError, getFetchError, getParserError } from "../common/errors";
 
+type MessageOfGetDecompressionError = Parameters<typeof getDecompressionError>[0]["message"];
+type MessageOfGetParserError = Parameters<typeof getParserError>[0]["message"];
+type MessageOfGetFetchError = Parameters<typeof getFetchError>[0]["message"];
+
 interface HttpieHandlerErrorOptions<T extends string = string> extends HttpieErrorOptions {
   /** @description original error */
   error?: Error;
   message: T;
 }
 
-// eslint-disable-next-line max-len
-interface HttpieDecompressionErrorOptions extends HttpieHandlerErrorOptions<Parameters<typeof getDecompressionError>[0]["message"]> {
+interface HttpieDecompressionErrorOptions extends HttpieHandlerErrorOptions<MessageOfGetDecompressionError> {
   /** @description original body as buffer */
   buffer: Buffer;
   /** @description encodings from 'content-encoding' header */
   encodings: string[];
 }
 
-// eslint-disable-next-line max-len
-interface HttpieParserErrorOptions extends HttpieHandlerErrorOptions<Parameters<typeof getParserError>[0]["message"]> {
+interface HttpieParserErrorOptions extends HttpieHandlerErrorOptions<MessageOfGetParserError> {
   /** @description content-type from 'content-type' header without params */
   contentType: string;
   /** @description original body as buffer */
@@ -40,7 +42,7 @@ class HttpieHandlerError extends HttpieError {
 }
 
 export class HttpieFetchBodyError extends HttpieHandlerError {
-  constructor(options: HttpieHandlerErrorOptions<Parameters<typeof getFetchError>[0]["message"]>, ...args) {
+  constructor(options: HttpieHandlerErrorOptions<MessageOfGetFetchError>, ...args) {
     super(getFetchError(options, ...args), options);
   }
 }
