@@ -15,7 +15,7 @@ interface HttpieError {
 
 The `isHttpieError` function can be used to find out weither the error is a `@myunisoft/httpie` or a `undici` error.
 ```ts
-function isHttpieError(error: any): boolean;
+function isHttpieError(error: unknown): boolean;
 ```
 
 Example:
@@ -43,7 +43,7 @@ catch (error) {
 
 The `isHTTPError` function can be used to find out if it is an HTTP error.
 ```ts
-function isHTTPError(error: any): boolean;
+function isHTTPError(error: unknown): boolean;
 ```
 
 Example:
