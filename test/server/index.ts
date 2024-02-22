@@ -80,6 +80,21 @@ export async function createServer(customPath = "local", port = 3000) {
     reply.send();
   });
 
+  server.get("/badEncoding", (request, reply) => {
+    reply.header("content-encoding", "oui");
+    reply.send("{ 'foo': bar }");
+  });
+
+  server.get("/pdf", (request, reply) => {
+    reply.header("content-type", "application/pdf");
+    reply.send("{ 'foo': bar }");
+  });
+
+  server.get("/text", (request, reply) => {
+    reply.header("content-type", "text/anything");
+    reply.send("text");
+  });
+
   await server.listen({ port });
 
   return server;
