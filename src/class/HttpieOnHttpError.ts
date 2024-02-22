@@ -4,7 +4,7 @@ import { RequestResponse } from "../request";
 
 /**
  * @description Class to generate an Error with all the required properties from the response.
- * We attach them to the error so that they can be retrieved by the developer in a Catch block.
+ * We attach these to the error so that they can be retrieved by the developer in a Catch block.
  */
 export class HttpieOnHttpError<T extends RequestResponse<any>> extends HttpieError {
   name = "HttpieOnHttpError";

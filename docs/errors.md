@@ -13,7 +13,7 @@ interface HttpieError {
 
 ### isHttpieError
 
-The `isHttpieError` function can be used to find out if the error is an Httpie error. If the result is `false`, it is probably an error by Undici.
+The `isHttpieError` function can be used to find out weither the error is a `@myunisoft/httpie` or a `undici` error.
 ```ts
 function isHttpieError(error: any): boolean;
 ```
@@ -74,7 +74,8 @@ catch (error) {
 
 If the `RequestOptions.throwOnHttpError` option is set to true, all HTTP responses with a status code higher than 400 will generate an `HttpieOnHttpError` error.
 
-> [NOTE] Use [`isHTTPError`](#ishttperror) function to know if it is an HTTP error.
+> [!NOTE] 
+> Use [`isHTTPError`](#ishttperror) function to know if it is an HTTP error.
 
 ```ts
 interface HttpieOnHttpError<T> {

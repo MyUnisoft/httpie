@@ -51,8 +51,9 @@ export function isHttpieError(error: unknown): error is HttpieError {
   return error instanceof HttpieError;
 }
 
-// eslint-disable-next-line max-len
-export function isHTTPError<T extends RequestResponse<any> = RequestResponse<any>>(error: unknown): error is HttpieOnHttpError<T> {
+export function isHTTPError<T extends RequestResponse<any> = RequestResponse<any>>(
+  error: unknown
+): error is HttpieOnHttpError<T> {
   return error instanceof HttpieOnHttpError;
 }
 
