@@ -32,7 +32,7 @@ catch (error) {
     console.log(Boolean(error.statusCode)) // true
   }
   else {
-    // This error can be of any type of error.
+    // This error can be of any error type.
     console.log(Boolean(error.headers)) // false
     console.log(Boolean(error.statusCode)) // false
   }
@@ -57,8 +57,11 @@ catch (error) {
   if (httpie.isHTTPError(error)) {
     console.log(Boolean(error.data)) // true
     console.log(Boolean(error.statusMessage)) // true
+    console.log(Boolean(error.headers)) // true
+    console.log(Boolean(error.statusCode)) // true
   }
   else {
+    // This error can be of any error type.
     console.log(Boolean(error.data)) // false
     console.log(Boolean(error.statusMessage)) // false
   }
