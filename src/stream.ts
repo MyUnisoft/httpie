@@ -1,5 +1,5 @@
 // Import Node.js Dependencies
-import { Duplex } from "stream";
+import { Duplex } from "node:stream";
 
 // Import Third-party Dependencies
 import * as undici from "undici";

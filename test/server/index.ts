@@ -1,7 +1,7 @@
 // Import Node.js Dependencies
-import path from "path";
-import fs from "fs";
-import { Transform } from "stream";
+import path from "node:path";
+import fs from "node:fs";
+import { Transform } from "node:stream";
 
 // Import Third-party Dependencies
 import fastify from "fastify";
@@ -78,6 +78,21 @@ export async function createServer(customPath = "local", port = 3000) {
   server.get("/internalerror", (request, reply) => {
     reply.code(500);
     reply.send();
+  });
+
+  server.get("/badEncoding", (request, reply) => {
+    reply.header("content-encoding", "oui");
+    reply.send("{ 'foo': bar }");
+  });
+
+  server.get("/pdf", (request, reply) => {
+    reply.header("content-type", "application/pdf");
+    reply.send("{ 'foo': bar }");
+  });
+
+  server.get("/text", (request, reply) => {
+    reply.header("content-type", "text/anything");
+    reply.send("text");
   });
 
   await server.listen({ port });

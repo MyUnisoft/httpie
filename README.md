@@ -31,7 +31,8 @@ The package is inspired by lukeed [httpie](https://github.com/lukeed/httpie) (Th
 
 ## 🔬 Features
 
-- Automatically handles JSON requests and responses.
+- Automatically parse based on the `content-type`.
+- Automatically decompress based on the `content-encoding`.
 - Includes aliases for common HTTP verbs: `get`, `post`, `put`, `patch`, and `del`.
 - Able to automatically detect domains and paths to assign the right Agent (use a LRU cache to avoid repetitive computation).
 - Allows to use an accurate rate-limiter like `p-ratelimit` with the `limit` option.
@@ -117,6 +118,10 @@ const response = (await httpie.safePost("https://jsonplaceholder.typicode.com/po
 - [Request API](./docs/request.md)
 - [Retry API](./docs/retry.md)
 - [Work and manage Agents](./docs/agents.md)
+
+## Error handling
+
+Read the [error documentation](./docs/errors.md).
 
 
 ## Contributors ✨

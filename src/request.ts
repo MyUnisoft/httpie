@@ -1,6 +1,6 @@
 // Import Node.js Dependencies
-import { IncomingHttpHeaders } from "http";
-import { URLSearchParams } from "url";
+import { IncomingHttpHeaders } from "node:http";
+import { URLSearchParams } from "node:url";
 
 // Import Third-party Dependencies
 import * as undici from "undici";
@@ -10,30 +10,38 @@ import status from "statuses";
 // Import Internal Dependencies
 import * as Utils from "./utils";
 import { computeURI } from "./agents";
+import { HttpieResponseHandler, ModeOfHttpieResponseHandler } from "./class/undiciResponseHandler";
+import { HttpieOnHttpError } from "./class/HttpieOnHttpError";
+import { HttpieError } from "./class/HttpieCommonError";
+import { HttpieDecompressionError, HttpieFetchBodyError, HttpieParserError } from "./class/HttpieHandlerError";
 
 export type WebDavMethod = "MKCOL" | "COPY" | "MOVE" | "LOCK" | "UNLOCK" | "PROPFIND" | "PROPPATCH";
 export type HttpMethod = "GET" | "HEAD" | "POST" | "PUT" | "DELETE" | "CONNECT" | "OPTIONS" | "TRACE" | "PATCH" ;
 export type InlineCallbackAction = <T>(fn: () => Promise<T>) => Promise<T>;
 
-export interface RequestError<E> extends Error {
-  statusMessage: string;
-  statusCode: number;
-  headers: IncomingHttpHeaders;
-  data: E;
-}
+export type RequestError<T> =
+  Partial<HttpieOnHttpError<RequestResponse<T>>> &
+  Partial<HttpieDecompressionError> &
+  Partial<HttpieFetchBodyError> &
+  Partial<HttpieParserError> &
+  HttpieError;
 
 export interface RequestOptions {
-  /** Default: 0 */
+  /** @default 0 */
   maxRedirections?: number;
-  /** Default: { "user-agent": "httpie" } */
+  /** @default{ "user-agent": "httpie" } */
   headers?: IncomingHttpHeaders;
   querystring?: string | URLSearchParams;
   body?: any;
   authorization?: string;
   // Could be dynamically computed depending on the provided URI.
   agent?: undici.Agent | undici.ProxyAgent | undici.MockAgent;
-  // API limiter from a package like "p-ratelimit"
+  /** @description API limiter from a package like `p-ratelimit`. */
   limit?: InlineCallbackAction;
+  /** @default "parse" */
+  mode?: ModeOfHttpieResponseHandler;
+  /** @default true */
+  throwOnHttpError?: boolean;
 }
 
 export interface RequestResponse<T> {
@@ -78,18 +86,26 @@ export async function request<T>(
     await limit(() => undici.request(computedURI.url, requestOptions));
 
   const statusCode = requestResponse.statusCode;
+  const responseHandler = new HttpieResponseHandler(requestResponse);
+
+  let data;
+  if (options.mode === "parse" || !options.mode) {
+    data = await responseHandler.getData<T>("parse");
+  }
+  else {
+    data = await responseHandler.getData(options.mode);
+  }
+
   const RequestResponse = {
     headers: requestResponse.headers,
     statusMessage: status.message[requestResponse.statusCode]!,
     statusCode,
-    data: void 0 as any
+    data
   };
 
-  const data = await Utils.parseUndiciResponse<T>(requestResponse);
-  RequestResponse.data = data;
-
-  if (statusCode >= 400) {
-    throw Utils.toError(RequestResponse);
+  const shouldThrowOnHttpError = options.throwOnHttpError ?? true;
+  if (shouldThrowOnHttpError && statusCode >= 400) {
+    throw new HttpieOnHttpError(RequestResponse);
   }
 
   return RequestResponse;
