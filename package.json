@@ -1,6 +1,6 @@
 {
   "name": "@myunisoft/httpie",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "MyUnisoft Node.js HTTP client that use Undici client",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
