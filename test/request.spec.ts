@@ -3,6 +3,7 @@ import { FastifyInstance } from "fastify";
 
 // Import Internal Dependencies
 import { get, post, put, patch, del, safeGet } from "../src/index";
+import { isHTTPError } from "../src/utils";
 
 // Helpers and mock
 import { createServer } from "./server/index";
@@ -177,16 +178,20 @@ describe("http.safeGet", () => {
   });
 
   it("should throw a 404 Not Found error because the path is not known", async() => {
+    expect.assertions(5);
+
     const result = await safeGet<string, any>("/windev/hlkezcjcke");
     expect(result.err).toStrictEqual(true);
 
     if (result.err) {
       const error = result.val;
 
-      expect(error.name).toStrictEqual("HttpieOnHttpError");
-      expect(error.statusCode).toStrictEqual(404);
-      expect(error.statusMessage).toStrictEqual("Not Found");
-      expect(error.data).toMatchSnapshot();
+      if (isHTTPError(error)) {
+        expect(error.name).toStrictEqual("HttpieOnHttpError");
+        expect(error.statusCode).toStrictEqual(404);
+        expect(error.statusMessage).toStrictEqual("Not Found");
+        expect(error.data).toMatchSnapshot();
+      }
     }
   });
 });
