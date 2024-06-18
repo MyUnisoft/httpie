@@ -57,6 +57,14 @@ describe("createHeaders", () => {
     expect(result).toEqual({ foo: "bar", "user-agent": "httpie" });
   });
 
+  it("should overwrite the 'user-agent' header", () => {
+    const result = Utils.createHeaders({
+      headers: { "user-agent": "myUserAgent" }
+    });
+
+    expect(result).toEqual({ "user-agent": "myUserAgent" });
+  });
+
   it("should add authorization header (and override original property)", () => {
     const result = Utils.createHeaders({
       headers: {
