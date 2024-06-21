@@ -48,8 +48,7 @@ describe("Httpie.safeRequest", () => {
           expect(result.ok).toBeFalsy();
           result.unwrap();
         }
-        catch (err) {
-          const error = err.cause;
+        catch (error) {
           expect(isHTTPError(error)).toBeTruthy();
           expect(error.statusCode).toBe(statusCode);
           expect(error.data).toBe(payload.toString());
@@ -99,8 +98,7 @@ describe("Httpie.safeRequest", () => {
           expect(result.ok).toBeFalsy();
           result.unwrap();
         }
-        catch (err) {
-          const error = err.cause;
+        catch (error) {
           expect(isHTTPError(error)).toBeTruthy();
           expect(error.statusCode).toBe(statusCode);
           expect(error.data).toBe(payload.toString());
@@ -150,8 +148,7 @@ describe("Httpie.safeRequest", () => {
           expect(result.ok).toBeFalsy();
           result.unwrap();
         }
-        catch (err) {
-          const error = err.cause;
+        catch (error) {
           expect(isHTTPError(error)).toBeTruthy();
           expect(error.statusCode).toBe(statusCode);
           expect(error.data).toBe(payload.toString());
@@ -201,8 +198,7 @@ describe("Httpie.safeRequest", () => {
           expect(result.ok).toBeFalsy();
           result.unwrap();
         }
-        catch (err) {
-          const error = err.cause;
+        catch (error) {
           expect(isHTTPError(error)).toBeTruthy();
           expect(error.statusCode).toBe(statusCode);
           expect(error.data).toBe(payload.toString());
@@ -508,8 +504,7 @@ describe("Httpie.safeRequest", () => {
           expect(result.ok).toBeFalsy();
           result.unwrap();
         }
-        catch (err) {
-          const error = err.cause;
+        catch (error) {
           expect(isHttpieError(error)).toBeTruthy();
           expect(error.message).toStrictEqual(
             "An unexpected error occurred when trying to parse the response body (reason: 'invalid media type')."
@@ -539,8 +534,7 @@ describe("Httpie.safeRequest", () => {
           expect(result.ok).toBeFalsy();
           result.unwrap();
         }
-        catch (err) {
-          const error = err.cause;
+        catch (error) {
           expect(error.message).toStrictEqual("Unsupported encoding 'unknown'.");
           expect(error.buffer).toStrictEqual(payload);
           expect(error.headers).toMatchObject(headers);
@@ -739,8 +733,7 @@ describe("Httpie.safeRequest", () => {
           expect(result.ok).toBeFalsy();
           result.unwrap();
         }
-        catch (err) {
-          const error = err.cause;
+        catch (error) {
           expect(isHttpieError(error)).toBeTruthy();
           expect(error.message).toStrictEqual(
             "An unexpected error occurred when trying to parse the response body (reason: 'invalid media type')."
@@ -770,8 +763,7 @@ describe("Httpie.safeRequest", () => {
           expect(result.ok).toBeFalsy();
           result.unwrap();
         }
-        catch (err) {
-          const error = err.cause;
+        catch (error) {
           expect(error.message).toStrictEqual("Unsupported encoding 'unknown'.");
           expect(error.buffer).toStrictEqual(payload);
           expect(error.headers).toMatchObject(headers);
@@ -970,8 +962,7 @@ describe("Httpie.safeRequest", () => {
           expect(result.ok).toBeFalsy();
           result.unwrap();
         }
-        catch (err) {
-          const error = err.cause;
+        catch (error) {
           expect(isHttpieError(error)).toBeTruthy();
           expect(error.message).toStrictEqual(
             "An unexpected error occurred when trying to parse the response body (reason: 'invalid media type')."
@@ -1001,8 +992,7 @@ describe("Httpie.safeRequest", () => {
           expect(result.ok).toBeFalsy();
           result.unwrap();
         }
-        catch (err) {
-          const error = err.cause;
+        catch (error) {
           expect(error.message).toStrictEqual("Unsupported encoding 'unknown'.");
           expect(error.buffer).toStrictEqual(payload);
           expect(error.headers).toMatchObject(headers);
@@ -1201,8 +1191,7 @@ describe("Httpie.safeRequest", () => {
           expect(result.ok).toBeFalsy();
           result.unwrap();
         }
-        catch (err) {
-          const error = err.cause;
+        catch (error) {
           expect(isHttpieError(error)).toBeTruthy();
           expect(error.message).toStrictEqual(
             "An unexpected error occurred when trying to parse the response body (reason: 'invalid media type')."
@@ -1232,8 +1221,7 @@ describe("Httpie.safeRequest", () => {
           expect(result.ok).toBeFalsy();
           result.unwrap();
         }
-        catch (err) {
-          const error = err.cause;
+        catch (error) {
           expect(error.message).toStrictEqual("Unsupported encoding 'unknown'.");
           expect(error.buffer).toStrictEqual(payload);
           expect(error.headers).toMatchObject(headers);
@@ -1369,8 +1357,7 @@ describe("Httpie.safeRequest", () => {
           expect(result.ok).toBeFalsy();
           result.unwrap();
         }
-        catch (err) {
-          const error = err.cause;
+        catch (error) {
           expect(error.message).toStrictEqual("Unsupported encoding 'unknown'.");
           expect(error.buffer).toMatchObject(payload);
           expect(error.headers).toMatchObject(headers);
@@ -1398,9 +1385,8 @@ describe("Httpie.safeRequest", () => {
           expect(result.ok).toBeFalsy();
           result.unwrap();
         }
-        catch (err) {
-          const error = err.cause;
-          expect(err.cause).toBeTruthy();
+        catch (error) {
+          expect(error).toBeTruthy();
           expect(error.reason).toBeTruthy();
           expect(error.message).toStrictEqual(
             "An unexpected error occurred when trying to decompress the response body (reason: 'incorrect header check')."
@@ -1535,8 +1521,7 @@ describe("Httpie.safeRequest", () => {
           expect(result.ok).toBeFalsy();
           result.unwrap();
         }
-        catch (err) {
-          const error = err.cause;
+        catch (error) {
           expect(error.message).toStrictEqual("Unsupported encoding 'unknown'.");
           expect(error.buffer).toMatchObject(payload);
           expect(error.headers).toMatchObject(headers);
@@ -1564,9 +1549,8 @@ describe("Httpie.safeRequest", () => {
           expect(result.ok).toBeFalsy();
           result.unwrap();
         }
-        catch (err) {
-          const error = err.cause;
-          expect(err.cause).toBeTruthy();
+        catch (error) {
+          expect(error).toBeTruthy();
           expect(error.reason).toBeTruthy();
           expect(error.message).toStrictEqual(
             "An unexpected error occurred when trying to decompress the response body (reason: 'incorrect header check')."
@@ -1701,8 +1685,7 @@ describe("Httpie.safeRequest", () => {
           expect(result.ok).toBeFalsy();
           result.unwrap();
         }
-        catch (err) {
-          const error = err.cause;
+        catch (error) {
           expect(error.message).toStrictEqual("Unsupported encoding 'unknown'.");
           expect(error.buffer).toMatchObject(payload);
           expect(error.headers).toMatchObject(headers);
@@ -1730,9 +1713,8 @@ describe("Httpie.safeRequest", () => {
           expect(result.ok).toBeFalsy();
           result.unwrap();
         }
-        catch (err) {
-          const error = err.cause;
-          expect(err.cause).toBeTruthy();
+        catch (error) {
+          expect(error).toBeTruthy();
           expect(error.reason).toBeTruthy();
           expect(error.message).toStrictEqual(
             "An unexpected error occurred when trying to decompress the response body (reason: 'incorrect header check')."
@@ -1867,8 +1849,7 @@ describe("Httpie.safeRequest", () => {
           expect(result.ok).toBeFalsy();
           result.unwrap();
         }
-        catch (err) {
-          const error = err.cause;
+        catch (error) {
           expect(error.message).toStrictEqual("Unsupported encoding 'unknown'.");
           expect(error.buffer).toMatchObject(payload);
           expect(error.headers).toMatchObject(headers);
@@ -1896,9 +1877,8 @@ describe("Httpie.safeRequest", () => {
           expect(result.ok).toBeFalsy();
           result.unwrap();
         }
-        catch (err) {
-          const error = err.cause;
-          expect(err.cause).toBeTruthy();
+        catch (error) {
+          expect(error).toBeTruthy();
           expect(error.reason).toBeTruthy();
           expect(error.message).toStrictEqual(
             "An unexpected error occurred when trying to decompress the response body (reason: 'incorrect header check')."

@@ -39,7 +39,8 @@ export function getEncodingCharset(charset = kDefaultEncodingCharset): BufferEnc
  * - Authorization
  */
 export function createHeaders(options: Partial<Pick<RequestOptions, "headers" | "authorization">>): IncomingHttpHeaders {
-  const headers = Object.assign(options.headers ?? {}, DEFAULT_HEADER);
+  const headers = Object.assign({ ...DEFAULT_HEADER }, options.headers ?? {});
+
   if (options.authorization) {
     headers.Authorization = createAuthorizationHeader(options.authorization);
   }

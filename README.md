@@ -51,7 +51,7 @@ Light with seriously maintained dependencies:
 ![](./docs/images/nodesecure.PNG)
 
 ## 🚧 Requirements
-- [Node.js](https://nodejs.org/en/) version 18 or higher
+- [Node.js](https://nodejs.org/en/) version 20 or higher
 
 ## 🚀 Getting Started
 
