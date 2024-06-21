@@ -17,6 +17,7 @@ import {
   Interceptable,
   Client
 } from "undici";
+import { MockInterceptor } from "undici/types/mock-interceptor";
 
 export * from "./request";
 export * from "./stream";
@@ -42,6 +43,7 @@ export {
   MockAgent,
   mockErrors,
   MockPool,
+  MockInterceptor,
   Interceptable,
   Client
 };
