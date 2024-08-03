@@ -46,7 +46,7 @@
   "dependencies": {
     "@openally/result": "^1.2.1",
     "content-type": "^1.0.5",
-    "lru-cache": "^10.1.0",
+    "lru-cache": "^11.0.0",
     "statuses": "^2.0.1",
     "undici": "^6.9.0"
   }
