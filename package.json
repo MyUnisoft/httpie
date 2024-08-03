@@ -34,7 +34,7 @@
     "@types/content-type": "^1.1.8",
     "@types/jest": "^29.5.11",
     "@types/lru-cache": "^7.10.10",
-    "@types/node": "^20.10.4",
+    "@types/node": "^22.0.0",
     "@types/statuses": "^2.0.4",
     "dotenv": "^16.3.1",
     "fastify": "^4.24.3",
