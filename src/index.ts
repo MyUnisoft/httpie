@@ -24,7 +24,7 @@ export * from "./retry";
 export * as policies from "./policies";
 export { agents, computeURI, CustomHttpAgent } from "./agents";
 export { DEFAULT_HEADER, isHTTPError, isHttpieError } from "./utils";
-
+export { HttpieOnHttpError } from "./class/HttpieOnHttpError";
 export * from "./class/undiciResponseHandler";
 
 export {
