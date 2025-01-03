@@ -70,7 +70,7 @@ export class HttpieResponseHandler {
       encodingHeader.reverse() :
       encodingHeader.split(",").reverse();
 
-    let decompressedBuffer = Buffer.from(buffer);
+    let decompressedBuffer: Buffer = Buffer.from(buffer);
     for (const rawEncoding of encodings) {
       const encoding = rawEncoding.trim() as TypeOfDecompression;
       const strategy = kDecompress[encoding];
