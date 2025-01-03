@@ -3,7 +3,7 @@ import { windev } from "./helpers";
 import * as Agents from "../src/agents";
 
 // CONSTANTS
-const kWindevMonitoringURL = "https://ws-dev.myunisoft.fr/ws_monitoring";
+const kWindevMonitoringURL = "https://ws.dev.myunisoft.tech/ws_monitoring";
 
 describe("agents", () => {
   it("should be an Array of CustomHttpAgent and must remain extensible", () => {
@@ -50,7 +50,7 @@ describe("computeURIOnAllAgents", () => {
 
 describe("detectAgentFromURI", () => {
   it("should detect windev agent with URI hostname", () => {
-    const returnedAgent = Agents.detectAgentFromURI(new URL("https://ws-dev.myunisoft.fr"));
+    const returnedAgent = Agents.detectAgentFromURI(new URL("https://ws.dev.myunisoft.tech"));
 
     expect(returnedAgent).toStrictEqual(windev);
   });

@@ -56,7 +56,7 @@ export interface RequestResponse<T> {
  * @see https://github.com/nodejs/undici
  *
  * @example
- * const { statusCode, data } = await request("GET", "https://ws-dev.myunisoft.fr/ws_monitoring");
+ * const { statusCode, data } = await request("GET", "https://ws.dev.myunisoft.tech/ws_monitoring");
  * console.log(statusCode, data); // 200 "true"
  */
 export async function request<T>(

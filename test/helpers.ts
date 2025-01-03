@@ -7,14 +7,14 @@ import { CustomHttpAgent, agents } from "../src/agents";
 const windev: CustomHttpAgent = {
   customPath: "windev",
   domains: new Set([
-    "ws-dev.myunisoft.fr"
+    "ws.dev.myunisoft.tech"
   ]),
   agent: new undici.Agent({
     connections: 500
   }),
-  prod: "https://ws-dev.myunisoft.fr",
-  preprod: "https://ws-dev.myunisoft.fr",
-  dev: "https://ws-dev.myunisoft.fr"
+  prod: "https://ws.dev.myunisoft.tech",
+  preprod: "https://ws.sta.myunisoft.tech",
+  dev: "https://ws.dev.myunisoft.tech"
 };
 agents.add(windev);
 

@@ -43,7 +43,7 @@ export const agents: Set<CustomHttpAgent> = new Set();
  *
  * @example
  * const URI = computeAgentPath("/windev/ws_monitoring", windev);
- * assert.strictEqual(URI, "https://ws-dev.myunisoft.fr/ws_monitoring");
+ * assert.strictEqual(URI, "https://ws.dev.myunisoft.tech/ws_monitoring");
  */
 export function isAgentPathMatchingURI(uri: string, agent: CustomHttpAgent): URL | null {
   // Note: we want to match both '/path/xxx...' and 'path/xxx...'
@@ -78,7 +78,7 @@ export function computeURIOnAllAgents(uri: string): computedUrlAndAgent {
  * @see https://nodejs.org/api/url.html#url_url_hostname
  *
  * @example
- * detectAgentFromURI("https://ws-dev.myunisoft.fr/ws_monitoring"); // windev agent
+ * detectAgentFromURI("https://ws.dev.myunisoft.tech/ws_monitoring"); // windev agent
  * detectAgentFromURI("https://www.google.fr/"); // null
  */
 export function detectAgentFromURI(uri: URL): CustomHttpAgent | null {

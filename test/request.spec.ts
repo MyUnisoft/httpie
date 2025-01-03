@@ -73,7 +73,7 @@ describe("http.get", () => {
   });
 
   it("should GET json response from node.js health endpoint", async() => {
-    const { data } = await get<any>("https://yoda.myunisoft.fr:1407/api/v1/ipa/healthz");
+    const { data } = await get<any>("https://app.dev.myunisoft.tech/api/v1/ipa/healthz");
 
     expect(Object.keys(data).sort()).toMatchObject([
       "status", "version", "description", "checks"
@@ -182,6 +182,7 @@ describe("http.safeGet", () => {
 
     if (result.err) {
       const error = result.val;
+      console.log(error);
 
       expect(error.name).toStrictEqual("HttpieOnHttpError");
       expect(error.statusCode).toStrictEqual(404);

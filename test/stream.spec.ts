@@ -28,8 +28,8 @@ afterAll(async() => {
 
 describe("stream", () => {
   it("should use callback dispatcher to init headers/statusCode etc.", async() => {
-    const fileDestination = path.join(kDownloadPath, "i18n-main.tar.gz");
-    const repositoryURL = new URL("NodeSecure/i18n/archive/main.tar.gz", kGithubURL);
+    const fileDestination = path.join(kDownloadPath, "flags-main.tar.gz");
+    const repositoryURL = new URL("NodeSecure/flags/archive/main.tar.gz", kGithubURL);
 
     const cursor = httpie.stream("GET", repositoryURL, {
       headers: {
@@ -54,8 +54,8 @@ describe("stream", () => {
   });
 
   it("should fetch a .tar.gz of a given github repository", async() => {
-    const fileDestination = path.join(kDownloadPath, "i18n-main.tar.gz");
-    const repositoryURL = new URL("NodeSecure/i18n/archive/main.tar.gz", kGithubURL);
+    const fileDestination = path.join(kDownloadPath, "flags-main.tar.gz");
+    const repositoryURL = new URL("NodeSecure/flags/archive/main.tar.gz", kGithubURL);
 
     await httpie.stream("GET", repositoryURL, {
       headers: {
