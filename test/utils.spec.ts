@@ -149,7 +149,6 @@ describe("createAuthorizationHeader", () => {
   });
 });
 
-
 describe("isHttpieError", () => {
   it("it should be true", () => {
     expect(Utils.isHttpieError(new HttpieOnHttpError({} as any))).toBeTruthy();

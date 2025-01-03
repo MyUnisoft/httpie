@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 
 // Import Node.js Dependencies
 import { randomBytes } from "node:crypto";
@@ -59,9 +58,10 @@ describe("HttpieResponseHandler.getData (mode: 'raw')", () => {
     try {
       await handler.getData();
     }
-    catch (error) {
+    catch (error: any) {
       expect(error.name).toStrictEqual("ResponseFetchError");
-      expect(error.message).toStrictEqual(`An unexpected error occurred while trying to retrieve the response body (reason: '${errMsg}').`);
+      expect(error.message)
+        .toStrictEqual(`An unexpected error occurred while trying to retrieve the response body (reason: '${errMsg}').`);
       expect(error.statusCode).toStrictEqual(mockResponse.statusCode);
       expect(error.headers).toStrictEqual(mockResponse.headers);
     }
@@ -97,7 +97,7 @@ describe("HttpieResponseHandler.getData (mode: 'decompress')", () => {
     try {
       await handler.getData("decompress");
     }
-    catch (error) {
+    catch (error: any) {
       expect(error.message).toStrictEqual(`Unsupported encoding '${encoding}'.`);
       expect(error.buffer).toStrictEqual(buf);
       expect(error.encodings).toStrictEqual([encoding]);
@@ -122,7 +122,7 @@ describe("HttpieResponseHandler.getData (mode: 'decompress')", () => {
     try {
       await handler.getData("decompress");
     }
-    catch (error) {
+    catch (error: any) {
       expect(error.message).toStrictEqual(`Unsupported encoding '${encoding}'.`);
       expect(error.buffer).toStrictEqual(buf);
       expect(error.encodings).toStrictEqual([encoding]);
@@ -132,7 +132,8 @@ describe("HttpieResponseHandler.getData (mode: 'decompress')", () => {
     }
   });
 
-  it("must use 'gunzip' before to returning an uncompressed buffer when the 'content-encoding' header is set with 'gzip'", async() => {
+  it(`must use 'gunzip' before to returning an uncompressed buffer
+    when the 'content-encoding' header is set with 'gzip'`, async() => {
     const buf = Buffer.from("hello world!");
     const mockResponse = {
       body: { arrayBuffer: () => toArrayBuffer(gzipSync(buf)) },
@@ -144,7 +145,8 @@ describe("HttpieResponseHandler.getData (mode: 'decompress')", () => {
     expect(data).toStrictEqual(buf);
   });
 
-  it("must use 'gunzip' before to returning an uncompressed buffer when the 'content-encoding' header is set with 'x-gzip'", async() => {
+  it(`must use 'gunzip' before to returning an uncompressed buffer
+    when the 'content-encoding' header is set with 'x-gzip'`, async() => {
     const buf = Buffer.from("hello world!");
     const mockResponse = {
       body: { arrayBuffer: () => toArrayBuffer(gzipSync(buf)) },
@@ -156,7 +158,8 @@ describe("HttpieResponseHandler.getData (mode: 'decompress')", () => {
     expect(data).toStrictEqual(buf);
   });
 
-  it("must use 'brotliDecompress' before to returning an uncompressed buffer when the 'content-encoding' header is set with 'br'", async() => {
+  it(`must use 'brotliDecompress' before to returning an uncompressed buffer
+    when the 'content-encoding' header is set with 'br'`, async() => {
     const buf = Buffer.from("hello world!");
     const mockResponse = {
       body: { arrayBuffer: () => toArrayBuffer(brotliCompressSync(buf)) },
@@ -168,7 +171,8 @@ describe("HttpieResponseHandler.getData (mode: 'decompress')", () => {
     expect(data).toStrictEqual(buf);
   });
 
-  it("must use 'inflate' before to returning an uncompressed buffer when the 'content-encoding' header is set with 'deflate'", async() => {
+  it(`must use 'inflate' before to returning an uncompressed buffer
+    when the 'content-encoding' header is set with 'deflate'`, async() => {
     const buf = Buffer.from("hello world!");
     const mockResponse = {
       body: { arrayBuffer: () => toArrayBuffer(deflateSync(buf)) },
@@ -235,7 +239,7 @@ describe("HttpieResponseHandler.getData (mode: 'parse')", () => {
     try {
       await handler.getData("parse");
     }
-    catch (error) {
+    catch (error: any) {
       expect(error.text).toStrictEqual(payload);
       expect(error.buffer).toStrictEqual(buf);
       expect(error.name).toStrictEqual("ResponseParsingError");

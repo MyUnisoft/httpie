@@ -7,7 +7,7 @@ import { RequestResponse } from "../request";
  * We attach these to the error so that they can be retrieved by the developer in a Catch block.
  */
 export class HttpieOnHttpError<T extends RequestResponse<any>> extends HttpieError {
-  name = "HttpieOnHttpError";
+  override name = "HttpieOnHttpError";
 
   statusMessage: string;
   data: T["data"];

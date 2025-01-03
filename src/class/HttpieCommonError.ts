@@ -4,7 +4,7 @@ import { IncomingHttpHeaders } from "undici/types/header";
 type CommonResponseData = {
   statusCode: number;
   headers: IncomingHttpHeaders;
-}
+};
 
 export interface HttpieErrorOptions {
   response: CommonResponseData;

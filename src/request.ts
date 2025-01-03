@@ -15,10 +15,10 @@ import { HttpieOnHttpError } from "./class/HttpieOnHttpError";
 import { HttpieDecompressionError, HttpieFetchBodyError, HttpieParserError } from "./class/HttpieHandlerError";
 
 export type WebDavMethod = "MKCOL" | "COPY" | "MOVE" | "LOCK" | "UNLOCK" | "PROPFIND" | "PROPPATCH";
-export type HttpMethod = "GET" | "HEAD" | "POST" | "PUT" | "DELETE" | "CONNECT" | "OPTIONS" | "TRACE" | "PATCH" ;
+export type HttpMethod = "GET" | "HEAD" | "POST" | "PUT" | "DELETE" | "CONNECT" | "OPTIONS" | "TRACE" | "PATCH";
 export type InlineCallbackAction = <T>(fn: () => Promise<T>) => Promise<T>;
 
-export type RequestError<T> = 
+export type RequestError<T> =
   HttpieOnHttpError<RequestResponse<T>> |
   HttpieDecompressionError |
   HttpieFetchBodyError |

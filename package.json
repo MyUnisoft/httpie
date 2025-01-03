@@ -6,6 +6,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
+    "lint": "eslint src test",
     "prepublishOnly": "npm run build",
     "test": "jest"
   },
@@ -30,7 +31,8 @@
   },
   "homepage": "https://github.com/MyUnisoft/httpie#readme",
   "devDependencies": {
-    "@nodesecure/eslint-config": "^1.9.0",
+    "@openally/config.eslint": "^1.1.0",
+    "@openally/config.typescript": "^1.0.3",
     "@types/content-type": "^1.1.8",
     "@types/jest": "^29.5.11",
     "@types/lru-cache": "^7.10.10",

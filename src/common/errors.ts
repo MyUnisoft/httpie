@@ -1,5 +1,3 @@
-/* eslint-disable max-len */
-
 interface GetErrorOptions<T> {
   error?: Error;
   message: keyof T;
@@ -26,6 +24,7 @@ const kFetchBodyErrors = {
 };
 
 const kDecompressionErrors = {
+  // eslint-disable-next-line @stylistic/max-len
   UnexpectedDecompressionError: taggedString`An unexpected error occurred when trying to decompress the response body (reason: '${0}').`,
   DecompressionNotSupported: taggedString`Unsupported encoding '${0}'.`
 };
