@@ -28,7 +28,7 @@ export async function retry<T>(
       const data = await callback();
       op.success(data);
     }
-    catch (error) {
+    catch (error: any) {
       if (policy(error)) {
         throw error;
       }

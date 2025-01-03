@@ -33,7 +33,7 @@ describe("HttpieOnHttpError", () => {
     try {
       await request(targetUrl.method as any, path);
     }
-    catch (error) {
+    catch (error: any) {
       expect(error.name).toStrictEqual("HttpieOnHttpError");
       expect(error).toMatchObject(expectedResponseData);
     }

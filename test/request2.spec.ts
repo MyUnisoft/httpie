@@ -46,7 +46,7 @@ describe("Httpie.safeRequest", () => {
         try {
           await request(target.method as any, kUrl + target.path);
         }
-        catch (error) {
+        catch (error: any) {
           expect(isHTTPError(error)).toBeTruthy();
           expect(error.statusCode).toBe(statusCode);
           expect(error.data).toBe(payload.toString());
@@ -92,7 +92,7 @@ describe("Httpie.safeRequest", () => {
         try {
           await request(target.method as any, kUrl + target.path);
         }
-        catch (error) {
+        catch (error: any) {
           expect(isHTTPError(error)).toBeTruthy();
           expect(error.statusCode).toBe(statusCode);
           expect(error.data).toBe(payload.toString());
@@ -138,7 +138,7 @@ describe("Httpie.safeRequest", () => {
         try {
           await request(target.method as any, kUrl + target.path);
         }
-        catch (error) {
+        catch (error: any) {
           expect(isHTTPError(error)).toBeTruthy();
           expect(error.statusCode).toBe(statusCode);
           expect(error.data).toBe(payload.toString());
@@ -184,7 +184,7 @@ describe("Httpie.safeRequest", () => {
         try {
           await request(target.method as any, kUrl + target.path);
         }
-        catch (error) {
+        catch (error: any) {
           expect(isHTTPError(error)).toBeTruthy();
           expect(error.statusCode).toBe(statusCode);
           expect(error.data).toBe(payload.toString());
@@ -229,7 +229,6 @@ describe("Httpie.safeRequest", () => {
 
         const response = await request(target.method as any, kUrl + target.path, { throwOnHttpError: false });
 
-
         expect(response.statusCode).toBe(statusCode);
         expect(response.data).toBe(payload.toString());
         expect(response.headers).toMatchObject(headers);
@@ -248,7 +247,6 @@ describe("Httpie.safeRequest", () => {
         pool.intercept(target).reply(statusCode, payload, { headers });
 
         const response = await request(target.method as any, kUrl + target.path, { throwOnHttpError: false });
-
 
         expect(response.statusCode).toBe(statusCode);
         expect(response.data).toBe(payload.toString());
@@ -271,7 +269,6 @@ describe("Httpie.safeRequest", () => {
 
         const response = await request(target.method as any, kUrl + target.path, { throwOnHttpError: false });
 
-
         expect(response.statusCode).toBe(statusCode);
         expect(response.data).toBe(payload.toString());
         expect(response.headers).toMatchObject(headers);
@@ -290,7 +287,6 @@ describe("Httpie.safeRequest", () => {
         pool.intercept(target).reply(statusCode, payload, { headers });
 
         const response = await request(target.method as any, kUrl + target.path, { throwOnHttpError: false });
-
 
         expect(response.statusCode).toBe(statusCode);
         expect(response.data).toBe(payload.toString());
@@ -313,7 +309,6 @@ describe("Httpie.safeRequest", () => {
 
         const response = await request(target.method as any, kUrl + target.path, { throwOnHttpError: false });
 
-
         expect(response.statusCode).toBe(statusCode);
         expect(response.data).toBe(payload.toString());
         expect(response.headers).toMatchObject(headers);
@@ -332,7 +327,6 @@ describe("Httpie.safeRequest", () => {
         pool.intercept(target).reply(statusCode, payload, { headers });
 
         const response = await request(target.method as any, kUrl + target.path, { throwOnHttpError: false });
-
 
         expect(response.statusCode).toBe(statusCode);
         expect(response.data).toBe(payload.toString());
@@ -355,7 +349,6 @@ describe("Httpie.safeRequest", () => {
 
         const response = await request(target.method as any, kUrl + target.path, { throwOnHttpError: false });
 
-
         expect(response.statusCode).toBe(statusCode);
         expect(response.data).toBe(payload.toString());
         expect(response.headers).toMatchObject(headers);
@@ -374,7 +367,6 @@ describe("Httpie.safeRequest", () => {
         pool.intercept(target).reply(statusCode, payload, { headers });
 
         const response = await request(target.method as any, kUrl + target.path, { throwOnHttpError: false });
-
 
         expect(response.statusCode).toBe(statusCode);
         expect(response.data).toBe(payload.toString());
@@ -478,7 +470,7 @@ describe("Httpie.safeRequest", () => {
         try {
           await request(target.method as any, kUrl + target.path);
         }
-        catch (error) {
+        catch (error: any) {
           expect(isHttpieError(error)).toBeTruthy();
           expect(error.message).toStrictEqual(
             "An unexpected error occurred when trying to parse the response body (reason: 'invalid media type')."
@@ -506,7 +498,7 @@ describe("Httpie.safeRequest", () => {
         try {
           await request(target.method as any, kUrl + target.path);
         }
-        catch (error) {
+        catch (error: any) {
           expect(error.message).toStrictEqual("Unsupported encoding 'unknown'.");
           expect(error.buffer).toStrictEqual(payload);
           expect(error.headers).toMatchObject(headers);
@@ -550,7 +542,6 @@ describe("Httpie.safeRequest", () => {
 
         const response = await request(target.method as any, kUrl + target.path);
 
-
         expect(response.data).toStrictEqual(payload);
         expect(response.headers).toMatchObject(headers);
       });
@@ -588,7 +579,6 @@ describe("Httpie.safeRequest", () => {
         pool.intercept(target).reply(statusCode, compressedPayload, { headers });
 
         const response = await request(target.method as any, kUrl + target.path);
-
 
         expect(response.data).toStrictEqual(payload);
         expect(response.headers).toMatchObject(headers);
@@ -690,7 +680,7 @@ describe("Httpie.safeRequest", () => {
         try {
           await request(target.method as any, kUrl + target.path);
         }
-        catch (error) {
+        catch (error: any) {
           expect(isHttpieError(error)).toBeTruthy();
           expect(error.message).toStrictEqual(
             "An unexpected error occurred when trying to parse the response body (reason: 'invalid media type')."
@@ -718,7 +708,7 @@ describe("Httpie.safeRequest", () => {
         try {
           await request(target.method as any, kUrl + target.path);
         }
-        catch (error) {
+        catch (error: any) {
           expect(error.message).toStrictEqual("Unsupported encoding 'unknown'.");
           expect(error.buffer).toStrictEqual(payload);
           expect(error.headers).toMatchObject(headers);
@@ -762,7 +752,6 @@ describe("Httpie.safeRequest", () => {
 
         const response = await request(target.method as any, kUrl + target.path);
 
-
         expect(response.data).toStrictEqual(payload);
         expect(response.headers).toMatchObject(headers);
       });
@@ -800,7 +789,6 @@ describe("Httpie.safeRequest", () => {
         pool.intercept(target).reply(statusCode, compressedPayload, { headers });
 
         const response = await request(target.method as any, kUrl + target.path);
-
 
         expect(response.data).toStrictEqual(payload);
         expect(response.headers).toMatchObject(headers);
@@ -902,7 +890,7 @@ describe("Httpie.safeRequest", () => {
         try {
           await request(target.method as any, kUrl + target.path);
         }
-        catch (error) {
+        catch (error: any) {
           expect(isHttpieError(error)).toBeTruthy();
           expect(error.message).toStrictEqual(
             "An unexpected error occurred when trying to parse the response body (reason: 'invalid media type')."
@@ -930,7 +918,7 @@ describe("Httpie.safeRequest", () => {
         try {
           await request(target.method as any, kUrl + target.path);
         }
-        catch (error) {
+        catch (error: any) {
           expect(error.message).toStrictEqual("Unsupported encoding 'unknown'.");
           expect(error.buffer).toStrictEqual(payload);
           expect(error.headers).toMatchObject(headers);
@@ -974,7 +962,6 @@ describe("Httpie.safeRequest", () => {
 
         const response = await request(target.method as any, kUrl + target.path);
 
-
         expect(response.data).toStrictEqual(payload);
         expect(response.headers).toMatchObject(headers);
       });
@@ -1012,7 +999,6 @@ describe("Httpie.safeRequest", () => {
         pool.intercept(target).reply(statusCode, compressedPayload, { headers });
 
         const response = await request(target.method as any, kUrl + target.path);
-
 
         expect(response.data).toStrictEqual(payload);
         expect(response.headers).toMatchObject(headers);
@@ -1114,7 +1100,7 @@ describe("Httpie.safeRequest", () => {
         try {
           await request(target.method as any, kUrl + target.path);
         }
-        catch (error) {
+        catch (error: any) {
           expect(isHttpieError(error)).toBeTruthy();
           expect(error.message).toStrictEqual(
             "An unexpected error occurred when trying to parse the response body (reason: 'invalid media type')."
@@ -1142,7 +1128,7 @@ describe("Httpie.safeRequest", () => {
         try {
           await request(target.method as any, kUrl + target.path);
         }
-        catch (error) {
+        catch (error: any) {
           expect(error.message).toStrictEqual("Unsupported encoding 'unknown'.");
           expect(error.buffer).toStrictEqual(payload);
           expect(error.headers).toMatchObject(headers);
@@ -1186,7 +1172,6 @@ describe("Httpie.safeRequest", () => {
 
         const response = await request(target.method as any, kUrl + target.path);
 
-
         expect(response.data).toStrictEqual(payload);
         expect(response.headers).toMatchObject(headers);
       });
@@ -1224,7 +1209,6 @@ describe("Httpie.safeRequest", () => {
         pool.intercept(target).reply(statusCode, compressedPayload, { headers });
 
         const response = await request(target.method as any, kUrl + target.path);
-
 
         expect(response.data).toStrictEqual(payload);
         expect(response.headers).toMatchObject(headers);
@@ -1249,7 +1233,6 @@ describe("Httpie.safeRequest", () => {
 
         const response = await request(target.method as any, kUrl + target.path, { mode: "decompress" });
 
-
         expect(response.data).toStrictEqual(payload);
         expect(response.headers).toMatchObject(headers);
       });
@@ -1271,7 +1254,7 @@ describe("Httpie.safeRequest", () => {
         try {
           await request(target.method as any, kUrl + target.path, { mode: "decompress" });
         }
-        catch (error) {
+        catch (error: any) {
           expect(error.message).toStrictEqual("Unsupported encoding 'unknown'.");
           expect(error.buffer).toMatchObject(payload);
           expect(error.headers).toMatchObject(headers);
@@ -1297,7 +1280,7 @@ describe("Httpie.safeRequest", () => {
         try {
           await request(target.method as any, kUrl + target.path, { mode: "decompress" });
         }
-        catch (error) {
+        catch (error: any) {
           expect(error.reason).toBeTruthy();
           expect(error.message).toStrictEqual(
             "An unexpected error occurred when trying to decompress the response body (reason: 'incorrect header check')."
@@ -1363,7 +1346,6 @@ describe("Httpie.safeRequest", () => {
         pool.intercept(target).reply(statusCode, compressedPayload, { headers });
         const response = await request(target.method as any, kUrl + target.path, { mode: "decompress" });
 
-
         expect(response.data).toStrictEqual(payload);
         expect(response.headers).toMatchObject(headers);
       });
@@ -1382,7 +1364,6 @@ describe("Httpie.safeRequest", () => {
 
         pool.intercept(target).reply(statusCode, compressedPayload, { headers });
         const response = await request(target.method as any, kUrl + target.path, { mode: "decompress" });
-
 
         expect(response.data).toStrictEqual(payload);
         expect(response.headers).toMatchObject(headers);
@@ -1404,7 +1385,6 @@ describe("Httpie.safeRequest", () => {
 
         const response = await request(target.method as any, kUrl + target.path, { mode: "decompress" });
 
-
         expect(response.data).toStrictEqual(payload);
         expect(response.headers).toMatchObject(headers);
       });
@@ -1426,7 +1406,7 @@ describe("Httpie.safeRequest", () => {
         try {
           await request(target.method as any, kUrl + target.path, { mode: "decompress" });
         }
-        catch (error) {
+        catch (error: any) {
           expect(error.message).toStrictEqual("Unsupported encoding 'unknown'.");
           expect(error.buffer).toMatchObject(payload);
           expect(error.headers).toMatchObject(headers);
@@ -1452,7 +1432,7 @@ describe("Httpie.safeRequest", () => {
         try {
           await request(target.method as any, kUrl + target.path, { mode: "decompress" });
         }
-        catch (error) {
+        catch (error: any) {
           expect(error.reason).toBeTruthy();
           expect(error.message).toStrictEqual(
             "An unexpected error occurred when trying to decompress the response body (reason: 'incorrect header check')."
@@ -1518,7 +1498,6 @@ describe("Httpie.safeRequest", () => {
         pool.intercept(target).reply(statusCode, compressedPayload, { headers });
         const response = await request(target.method as any, kUrl + target.path, { mode: "decompress" });
 
-
         expect(response.data).toStrictEqual(payload);
         expect(response.headers).toMatchObject(headers);
       });
@@ -1537,7 +1516,6 @@ describe("Httpie.safeRequest", () => {
 
         pool.intercept(target).reply(statusCode, compressedPayload, { headers });
         const response = await request(target.method as any, kUrl + target.path, { mode: "decompress" });
-
 
         expect(response.data).toStrictEqual(payload);
         expect(response.headers).toMatchObject(headers);
@@ -1559,7 +1537,6 @@ describe("Httpie.safeRequest", () => {
 
         const response = await request(target.method as any, kUrl + target.path, { mode: "decompress" });
 
-
         expect(response.data).toStrictEqual(payload);
         expect(response.headers).toMatchObject(headers);
       });
@@ -1581,7 +1558,7 @@ describe("Httpie.safeRequest", () => {
         try {
           await request(target.method as any, kUrl + target.path, { mode: "decompress" });
         }
-        catch (error) {
+        catch (error: any) {
           expect(error.message).toStrictEqual("Unsupported encoding 'unknown'.");
           expect(error.buffer).toMatchObject(payload);
           expect(error.headers).toMatchObject(headers);
@@ -1607,7 +1584,7 @@ describe("Httpie.safeRequest", () => {
         try {
           await request(target.method as any, kUrl + target.path, { mode: "decompress" });
         }
-        catch (error) {
+        catch (error: any) {
           expect(error.reason).toBeTruthy();
           expect(error.message).toStrictEqual(
             "An unexpected error occurred when trying to decompress the response body (reason: 'incorrect header check')."
@@ -1673,7 +1650,6 @@ describe("Httpie.safeRequest", () => {
         pool.intercept(target).reply(statusCode, compressedPayload, { headers });
         const response = await request(target.method as any, kUrl + target.path, { mode: "decompress" });
 
-
         expect(response.data).toStrictEqual(payload);
         expect(response.headers).toMatchObject(headers);
       });
@@ -1692,7 +1668,6 @@ describe("Httpie.safeRequest", () => {
 
         pool.intercept(target).reply(statusCode, compressedPayload, { headers });
         const response = await request(target.method as any, kUrl + target.path, { mode: "decompress" });
-
 
         expect(response.data).toStrictEqual(payload);
         expect(response.headers).toMatchObject(headers);
@@ -1714,7 +1689,6 @@ describe("Httpie.safeRequest", () => {
 
         const response = await request(target.method as any, kUrl + target.path, { mode: "decompress" });
 
-
         expect(response.data).toStrictEqual(payload);
         expect(response.headers).toMatchObject(headers);
       });
@@ -1736,7 +1710,7 @@ describe("Httpie.safeRequest", () => {
         try {
           await request(target.method as any, kUrl + target.path, { mode: "decompress" });
         }
-        catch (error) {
+        catch (error: any) {
           expect(error.message).toStrictEqual("Unsupported encoding 'unknown'.");
           expect(error.buffer).toMatchObject(payload);
           expect(error.headers).toMatchObject(headers);
@@ -1762,7 +1736,7 @@ describe("Httpie.safeRequest", () => {
         try {
           await request(target.method as any, kUrl + target.path, { mode: "decompress" });
         }
-        catch (error) {
+        catch (error: any) {
           expect(error.reason).toBeTruthy();
           expect(error.message).toStrictEqual(
             "An unexpected error occurred when trying to decompress the response body (reason: 'incorrect header check')."
@@ -1828,7 +1802,6 @@ describe("Httpie.safeRequest", () => {
         pool.intercept(target).reply(statusCode, compressedPayload, { headers });
         const response = await request(target.method as any, kUrl + target.path, { mode: "decompress" });
 
-
         expect(response.data).toStrictEqual(payload);
         expect(response.headers).toMatchObject(headers);
       });
@@ -1847,7 +1820,6 @@ describe("Httpie.safeRequest", () => {
 
         pool.intercept(target).reply(statusCode, compressedPayload, { headers });
         const response = await request(target.method as any, kUrl + target.path, { mode: "decompress" });
-
 
         expect(response.data).toStrictEqual(payload);
         expect(response.headers).toMatchObject(headers);
@@ -1888,9 +1860,7 @@ describe("Httpie.safeRequest", () => {
 
         pool.intercept(target).reply(statusCode, payload, { headers });
 
-
         const response = await request(target.method as any, kUrl + target.path, { mode: "raw" });
-
 
         expect(response.data).toStrictEqual(payload);
         expect(response.headers).toMatchObject(headers);
@@ -1970,9 +1940,7 @@ describe("Httpie.safeRequest", () => {
 
         pool.intercept(target).reply(statusCode, payload, { headers });
 
-
         const response = await request(target.method as any, kUrl + target.path, { mode: "raw" });
-
 
         expect(response.data).toStrictEqual(payload);
         expect(response.headers).toMatchObject(headers);
@@ -2012,9 +1980,7 @@ describe("Httpie.safeRequest", () => {
 
         pool.intercept(target).reply(statusCode, payload, { headers });
 
-
         const response = await request(target.method as any, kUrl + target.path, { mode: "raw" });
-
 
         expect(response.data).toStrictEqual(payload);
         expect(response.headers).toMatchObject(headers);

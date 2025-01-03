@@ -7,8 +7,6 @@ exports[`http.get should throw a 404 Not Found error because the path is not kno
 </head><body>
 <h1>Not Found</h1>
 <p>The requested URL was not found on this server.</p>
-<hr>
-<address>Apache/2.4.58 (Ubuntu) Server at ws.dev.myunisoft.tech Port 80</address>
 </body></html>
 "
 `;
@@ -20,8 +18,6 @@ exports[`http.safeGet should throw a 404 Not Found error because the path is not
 </head><body>
 <h1>Not Found</h1>
 <p>The requested URL was not found on this server.</p>
-<hr>
-<address>Apache/2.4.58 (Ubuntu) Server at ws.dev.myunisoft.tech Port 80</address>
 </body></html>
 "
 `;

@@ -1,6 +1,0 @@
-{
-    "extends": "@nodesecure/eslint-config",
-    "rules": {
-      "@typescript-eslint/no-non-null-assertion": "off"
-    }
-}

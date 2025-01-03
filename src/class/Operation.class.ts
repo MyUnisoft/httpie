@@ -21,7 +21,7 @@ export interface OperationResult<T> {
     attempt: number;
     executionTimestamp: number;
     elapsedTimeoutTime: number;
-  }
+  };
 }
 
 export default class Operation<T> {

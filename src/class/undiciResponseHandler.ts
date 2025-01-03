@@ -1,4 +1,3 @@
-/* eslint-disable no-dupe-class-members */
 
 // Import Node.js Dependencies
 import { promisify } from "node:util";
@@ -48,7 +47,7 @@ export class HttpieResponseHandler {
     try {
       return Buffer.from(await this.response.body.arrayBuffer());
     }
-    catch (error) {
+    catch (error: any) {
       throw new HttpieFetchBodyError({
         message: "ResponseFetchError",
         error,
@@ -70,7 +69,7 @@ export class HttpieResponseHandler {
       encodingHeader.reverse() :
       encodingHeader.split(",").reverse();
 
-    let decompressedBuffer = Buffer.from(buffer);
+    let decompressedBuffer: Buffer = Buffer.from(buffer);
     for (const rawEncoding of encodings) {
       const encoding = rawEncoding.trim() as TypeOfDecompression;
       const strategy = kDecompress[encoding];
@@ -90,7 +89,7 @@ export class HttpieResponseHandler {
       try {
         decompressedBuffer = await strategy(decompressedBuffer);
       }
-      catch (error) {
+      catch (error: any) {
         throw new HttpieDecompressionError({
           message: "UnexpectedDecompressionError",
           buffer,
@@ -129,7 +128,7 @@ export class HttpieResponseHandler {
         return bodyAsString;
       }
     }
-    catch (error) {
+    catch (error: any) {
       // Note: Even in case of an error we want to be able to recover the body that caused the JSON parsing error.
       throw new HttpieParserError({
         message: "ResponseParsingError",

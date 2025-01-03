@@ -20,14 +20,14 @@ afterAll(async() => {
 
 describe("http.get", () => {
   it("should GET uptime from local fastify server", async() => {
-    const { data } = await get<{ uptime: number }>("/local/");
+    const { data } = await get<{ uptime: number; }>("/local/");
 
     expect("uptime" in data).toStrictEqual(true);
     expect(typeof data.uptime).toStrictEqual("number");
   });
 
   it("should GET query parameters provided to fastify", async() => {
-    const { data } = await get<{ name: string }>("/local/qs", {
+    const { data } = await get<{ name: string; }>("/local/qs", {
       querystring: new URLSearchParams({
         name: "foobar"
       })
@@ -38,7 +38,7 @@ describe("http.get", () => {
   });
 
   it("should GET uptime by following an HTTP redirection from local fastify server", async() => {
-    const { data } = await get<{ uptime: number }>("/local/redirect", { maxRedirections: 1 });
+    const { data } = await get<{ uptime: number; }>("/local/redirect", { maxRedirections: 1 });
 
     expect("uptime" in data).toStrictEqual(true);
     expect(typeof data.uptime).toStrictEqual("number");
@@ -52,7 +52,7 @@ describe("http.get", () => {
 
       return callback();
     };
-    const { data } = await get<{ uptime: number }>("/local/", { limit });
+    const { data } = await get<{ uptime: number; }>("/local/", { limit });
 
     expect("uptime" in data).toStrictEqual(true);
     expect(typeof data.uptime).toStrictEqual("number");
@@ -87,7 +87,7 @@ describe("http.get", () => {
     try {
       await get<string>("/windev/hlkezcjcke");
     }
-    catch (error) {
+    catch (error: any) {
       expect(error.name).toStrictEqual("HttpieOnHttpError");
       expect(error.statusCode).toStrictEqual(404);
       expect(error.statusMessage).toStrictEqual("Not Found");
@@ -102,7 +102,7 @@ describe("http.get", () => {
     try {
       await get<string>("/local/jsonError");
     }
-    catch (error) {
+    catch (error: any) {
       expect(error.name).toStrictEqual("ResponseParsingError");
       expect(error.reason.name).toStrictEqual("SyntaxError");
       expect(error.text).toStrictEqual(expectedPayload);
@@ -122,12 +122,11 @@ describe("http.post", () => {
       userId: 1
     };
 
-    const { data } = await post<typeof body & { userId: number }>("https://jsonplaceholder.typicode.com/posts", { body });
+    const { data } = await post<typeof body & { userId: number; }>("https://jsonplaceholder.typicode.com/posts", { body });
     expect(typeof data.userId).toStrictEqual("number");
     expect(data).toMatchObject(body);
   });
 });
-
 
 describe("http.put", () => {
   it("should PUT data on jsonplaceholder API", async() => {
@@ -138,7 +137,7 @@ describe("http.put", () => {
       userId: 1
     };
 
-    const { data } = await put<typeof body & { userId: number }>("https://jsonplaceholder.typicode.com/posts/1", { body });
+    const { data } = await put<typeof body & { userId: number; }>("https://jsonplaceholder.typicode.com/posts/1", { body });
     expect(data).toEqual(body);
   });
 });
@@ -151,7 +150,7 @@ describe("http.patch", () => {
       userId: 1
     };
 
-    const { data } = await patch<typeof body & { userId: number }>("https://jsonplaceholder.typicode.com/posts/1", {
+    const { data } = await patch<typeof body & { userId: number; }>("https://jsonplaceholder.typicode.com/posts/1", {
       body: { title: "foo" }
     });
     expect(data).toMatchObject(body);
@@ -169,7 +168,7 @@ describe("http.del", () => {
 
 describe("http.safeGet", () => {
   it("should GET uptime from local fastify server", async() => {
-    const result = await safeGet<{ uptime: number }, any>("/local/");
+    const result = await safeGet<{ uptime: number; }, any>("/local/");
 
     expect(result.ok).toStrictEqual(true);
     const { data } = result.unwrap();

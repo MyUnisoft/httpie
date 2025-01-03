@@ -22,7 +22,7 @@ export * from "./request";
 export * from "./stream";
 export * from "./retry";
 export * as policies from "./policies";
-export { agents, computeURI, CustomHttpAgent } from "./agents";
+export { agents, computeURI, type CustomHttpAgent } from "./agents";
 export { DEFAULT_HEADER, isHTTPError, isHttpieError } from "./utils";
 export { HttpieOnHttpError } from "./class/HttpieOnHttpError";
 export * from "./class/undiciResponseHandler";
@@ -34,14 +34,14 @@ export {
   setGlobalDispatcher,
   getGlobalDispatcher,
   Headers,
-  HeadersInit,
+  type HeadersInit,
   FormData,
   File,
-  BodyInit,
+  type BodyInit,
   BodyMixin,
   MockAgent,
   mockErrors,
   MockPool,
-  Interceptable,
+  type Interceptable,
   Client
 };

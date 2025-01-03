@@ -25,7 +25,7 @@ describe("retry (with default policy)", () => {
         throw new Error("exceed");
       }, { factor: 1 });
     }
-    catch (error) {
+    catch (error: any) {
       expect(error.message).toStrictEqual("Exceeded the maximum number of allowed retries!");
     }
   });
@@ -65,7 +65,7 @@ describe("retry (with default policy)", () => {
         throw new Error("oops");
       }, { forever: true, signal: controller.signal });
     }
-    catch (error) {
+    catch (error: any) {
       expect(error.message).toStrictEqual("Aborted");
     }
   });
@@ -78,7 +78,7 @@ describe("retry (with http policy)", () => {
     try {
       await retry(async() => get("/retry/internalerror"), { factor: 1, retries: 2 }, policies.httpcode());
     }
-    catch (error) {
+    catch (error: any) {
       expect(error.message).toStrictEqual("Exceeded the maximum number of allowed retries!");
     }
   });
@@ -89,7 +89,7 @@ describe("retry (with http policy)", () => {
     try {
       await retry(async() => get("/retry/notimplemented"), { factor: 1, retries: 2 }, policies.httpcode());
     }
-    catch (error) {
+    catch (error: any) {
       expect(error.message).toStrictEqual("Not Implemented");
     }
   });
@@ -102,7 +102,7 @@ describe("retry (with http policy)", () => {
 
       await retry(async() => get("/retry/notimplemented"), { factor: 1, retries: 2 }, policy);
     }
-    catch (error) {
+    catch (error: any) {
       expect(error.message).toStrictEqual("Exceeded the maximum number of allowed retries!");
     }
   });
