@@ -31,7 +31,7 @@
   },
   "homepage": "https://github.com/MyUnisoft/httpie#readme",
   "devDependencies": {
-    "@openally/config.eslint": "^1.1.0",
+    "@openally/config.eslint": "^2.0.0",
     "@openally/config.typescript": "^1.0.3",
     "@types/content-type": "^1.1.8",
     "@types/jest": "^29.5.11",
